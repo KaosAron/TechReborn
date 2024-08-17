@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "tech-reborn",
+	"version": "${version}",
+	"name": "Tech Reborn",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/tech-reborn/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.aronkrebs.techreborn.TechReborn"
+		],
+		"client": [
+			"net.aronkrebs.techreborn.TechRebornClient"
+		],
+		"fabric-datagen": [
+			"net.aronkrebs.techreborn.TechRebornDataGenerator"
+		]
+	},
+	"mixins": [
+		"tech-reborn.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
