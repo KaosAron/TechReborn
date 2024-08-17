@@ -13,9 +13,11 @@ import net.minecraft.util.Identifier;
 public class ModItems {
 
     public static final Item DIAMOND_DUST = registerItem("diamonddust", new Item(new FabricItemSettings()));
+    public static final Item BATTERY = registerItem("battery", new Item(new FabricItemSettings()));
 
     private static void addItemsToIngredientItemGroup(FabricItemGroupEntries entries) {
         entries.add(DIAMOND_DUST);
+        entries.add(BATTERY);
     }
 
     private static Item registerItem(String name, Item item) {

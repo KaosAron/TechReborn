@@ -1,3 +1,9 @@
 {
-  "item.techreborn.diamonddust": "Diamond Dust"
+  "item.techreborn.diamonddust": "Diamond Dust",
+  "item.techreborn.battery": "Battery",
+
+
+  "block.techreborn.pulverizer_block": "Pulverizer",
+
+  "itemgroup.techreborn": "TechReborn"
 }
