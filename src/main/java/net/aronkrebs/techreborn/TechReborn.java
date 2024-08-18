@@ -18,5 +18,6 @@ public class TechReborn implements ModInitializer {
 
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();
+
 	}
 }

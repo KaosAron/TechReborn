@@ -20,8 +20,13 @@ public class ModItemGroups {
 
                         entries.add(ModItems.DIAMOND_DUST);
                         entries.add(ModItems.BATTERY);
+                        entries.add(ModItems.INGOTLITHIUM);
+                        entries.add(ModItems.RAWLITHIUM);
 
                         entries.add(ModBlocks.PULVERIZER_BLOCK);
+                        entries.add(ModBlocks.ORELITHIUM);
+                        entries.add(ModBlocks.DEEPSLATEORELITHIUM);
+                        entries.add(ModBlocks.LITHIUM_BLOCK);
                     }).build());
 
 

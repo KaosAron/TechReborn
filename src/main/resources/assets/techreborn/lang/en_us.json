@@ -1,9 +1,16 @@
 {
   "item.techreborn.diamonddust": "Diamond Dust",
   "item.techreborn.battery": "Battery",
+  "item.techreborn.ingotlithium": "Lithium Ingot",
+  "item.techreborn.rawlithium": "Raw Lithium",
+
 
 
   "block.techreborn.pulverizer_block": "Pulverizer",
+  "block.techreborn.orelithium": "Lithium Ore",
+  "block.techreborn.deepslateorelithium": "Deepslate Lithium Ore",
+  "block.techreborn.lithium_block": "Block of Lithium",
+
 
   "itemgroup.techreborn": "TechReborn"
 }

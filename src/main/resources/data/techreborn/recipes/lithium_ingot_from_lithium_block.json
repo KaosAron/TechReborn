@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "techreborn:lithium_block"
+    }
+  ],
+  "result": {
+    "item": "techreborn:ingotlithium",
+    "count": 9
+  }
+}

@@ -1,6 +1,7 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "techreborn:block/pulverizer_block"
+    "all": "techreborn:block/orelithium"
   }
 }
+

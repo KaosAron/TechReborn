@@ -14,10 +14,14 @@ public class ModItems {
 
     public static final Item DIAMOND_DUST = registerItem("diamonddust", new Item(new FabricItemSettings()));
     public static final Item BATTERY = registerItem("battery", new Item(new FabricItemSettings()));
+    public static final Item INGOTLITHIUM = registerItem("ingotlithium", new Item(new FabricItemSettings()));
+    public static final Item RAWLITHIUM = registerItem("rawlithium", new Item(new FabricItemSettings()));
 
     private static void addItemsToIngredientItemGroup(FabricItemGroupEntries entries) {
         entries.add(DIAMOND_DUST);
         entries.add(BATTERY);
+        entries.add(INGOTLITHIUM);
+        entries.add(RAWLITHIUM);
     }
 
     private static Item registerItem(String name, Item item) {
