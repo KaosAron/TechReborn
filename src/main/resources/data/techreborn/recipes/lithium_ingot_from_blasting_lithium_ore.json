@@ -4,7 +4,7 @@
   "cookingtime": 100,
   "experience": 0.7,
   "ingredient": {
-    "item": "techreborn:orelithium"
+    "item": "techreborn:lithium_ore"
   },
-  "result": "techreborn:ingotlithium"
+  "result": "techreborn:lithium_ingot"
 }

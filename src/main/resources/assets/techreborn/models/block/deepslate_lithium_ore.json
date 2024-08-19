@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "techreborn:block/deepslateorelithium"
+    "all": "techreborn:block/deepslate_lithium_ore"
   }
 }
