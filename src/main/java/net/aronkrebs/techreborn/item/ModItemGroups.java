@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 
 public class ModItemGroups {
     public static final ItemGroup TECHREBORN_GROUP = Registry.register(Registries.ITEM_GROUP,
-            new Identifier(TechReborn.MOD_ID, "TechReborn"),
+            new Identifier(TechReborn.MOD_ID, "techreborn"),
             FabricItemGroup.builder().displayName(Text.translatable("itemgroup.techreborn"))
                     .icon(() -> new ItemStack(ModItems.DIAMOND_DUST)).entries((displayContext, entries) -> {
                         entries.add(Items.DIAMOND);
