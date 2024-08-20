@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "techreborn:rawlithium"
+          "name": "techreborn:raw_lithium"
         }
       ],
       "rolls": 1.0
