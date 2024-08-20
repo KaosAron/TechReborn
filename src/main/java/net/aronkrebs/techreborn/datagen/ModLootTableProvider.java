@@ -26,9 +26,12 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.PULVERIZER_BLOCK);
         addDrop(ModBlocks.LITHIUM_BLOCK);
 
-        addDrop(ModBlocks.LITHIUM_ORE, copperLikeOreDrops(ModBlocks.LITHIUM_ORE, ModItems.RAW_LITHIUM));
-        addDrop(ModBlocks.DEEPSLATE_LITHIUM_ORE, copperLikeOreDrops(ModBlocks.DEEPSLATE_LITHIUM_ORE, ModItems.RAW_LITHIUM));
+        addDrop(ModBlocks.LITHIUM_ORE, oreDrops(ModBlocks.LITHIUM_ORE, ModItems.RAW_LITHIUM));
+        addDrop(ModBlocks.DEEPSLATE_LITHIUM_ORE, oreDrops(ModBlocks.DEEPSLATE_LITHIUM_ORE, ModItems.RAW_LITHIUM));
     }
+
+
+
 
     public LootTable.Builder copperLikeOreDrops(Block drop, Item item) {
         return BlockLootTableGenerator.dropsWithSilkTouch(drop, (LootPoolEntry.Builder)this.applyExplosionDecay(drop,
@@ -36,7 +39,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                         ItemEntry.builder(item)
                                 .apply(SetCountLootFunction
                                         .builder(UniformLootNumberProvider
-                                                .create(1.0f, 3.0f))))
+                                                .create(1.0f, 3.0f)))) //How much CopperLike Ore Drops
                         .apply(ApplyBonusLootFunction.oreDrops(Enchantments.FORTUNE))));
     }
 
