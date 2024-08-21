@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "L": {
+      "item": "techreborn:lithium_ingot"
+    }
+  },
+  "pattern": [
+    " L ",
+    "LIL",
+    "LIL"
+  ],
+  "result": {
+    "item": "techreborn:battery"
+  },
+  "show_notification": true
+}
