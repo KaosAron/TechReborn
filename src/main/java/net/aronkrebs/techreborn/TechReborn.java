@@ -1,6 +1,7 @@
 package net.aronkrebs.techreborn;
 
 import net.aronkrebs.techreborn.block.ModBlocks;
+import net.aronkrebs.techreborn.block.entity.ModBlockEntities;
 import net.aronkrebs.techreborn.item.ModItemGroups;
 import net.aronkrebs.techreborn.item.ModItems;
 import net.fabricmc.api.ModInitializer;
@@ -18,6 +19,8 @@ public class TechReborn implements ModInitializer {
 
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();
+
+		ModBlockEntities.registerBlockEntities();
 
 	}
 }
