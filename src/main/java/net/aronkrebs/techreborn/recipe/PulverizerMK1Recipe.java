@@ -1,26 +1,27 @@
 package net.aronkrebs.techreborn.recipe;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.*;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.world.World;
+import net.minecraft.recipe.Ingredient;
 
 import java.util.List;
 
 public class PulverizerMK1Recipe implements Recipe<SimpleInventory> {
+    private final Identifier id;
     private final ItemStack output;
     private final List<Ingredient> recipeItems;
 
-    public PulverizerMK1Recipe(List<Ingredient> ingredients, ItemStack itemStack) {
+    public PulverizerMK1Recipe(Identifier id, ItemStack itemStack, List<Ingredient> ingredients) {
+        this.id = id;
         this.output = itemStack;
         this.recipeItems = ingredients;
     }
@@ -59,12 +60,12 @@ public class PulverizerMK1Recipe implements Recipe<SimpleInventory> {
 
     @Override
     public Identifier getId() {
-        return null;
+        return id;
     }
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return null;
+        return Serializer.INSTANCE;
     }
 
     @Override
@@ -73,46 +74,51 @@ public class PulverizerMK1Recipe implements Recipe<SimpleInventory> {
     }
 
     public static class Type implements RecipeType<PulverizerMK1Recipe> {
+        private Type() { }
         public static final Type INSTANCE = new Type();
         public static final String ID = "pulverizermk1";
     }
 
     public static class Serializer implements RecipeSerializer<PulverizerMK1Recipe> {
-
         public static final Serializer INSTANCE = new Serializer();
         public static final String ID = "pulverizermk1";
-
-        public static final Codec<PulverizerMK1Recipe> CODEC = RecordCodecBuilder.create(in -> in.group(
-                validateAmount(Ingredient., 9).fieldOf("ingredients").forGetter(PulverizerMK1Recipe::getIngredients),
-                RecipeCodecs.CRAFTING_RESULT.fieldOf("output").forGetter(r -> r.output)
-        ).apply(in, PulverizerMK1Recipe::new));
-
-        private static Codec<List<Ingredient>> validateAmount(Codec<Ingredient> delegate, int max) {
-            return Codecs.validate(Codecs.validate(
-                    delegate.listOf(), list -> list.size() > max ? DataResult.error(() -> "Recipe has too many ingredients!") : DataResult.success(list)
-            ), list -> list.isEmpty() ? DataResult.error(() -> "Recipe has no ingredients!") : DataResult.success(list));
-        }
-
-
-        @Override
-        public Codec<PulverizerMK1Recipe> codec() {
-            return CODEC;
-        }
+        // this is the name given in the json file
 
         @Override
         public PulverizerMK1Recipe read(Identifier id, JsonObject json) {
-            return null;
+            ItemStack output = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "output"));
+
+            JsonArray ingredients = JsonHelper.getArray(json, "ingredients");
+            DefaultedList<Ingredient> inputs = DefaultedList.ofSize(1, Ingredient.EMPTY);
+
+            for (int i = 0; i < inputs.size(); i++) {
+                inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
+            }
+
+            return new PulverizerMK1Recipe(id, output, inputs);
         }
 
         @Override
         public PulverizerMK1Recipe read(Identifier id, PacketByteBuf buf) {
-            return null;
+            DefaultedList<Ingredient> inputs = DefaultedList.ofSize(buf.readInt(), Ingredient.EMPTY);
+
+            for (int i = 0; i < inputs.size(); i++) {
+                inputs.set(i, Ingredient.fromPacket(buf));
+            }
+
+            ItemStack output = buf.readItemStack();
+            return new PulverizerMK1Recipe(id, output, inputs);
         }
 
         @Override
         public void write(PacketByteBuf buf, PulverizerMK1Recipe recipe) {
-
+            buf.writeInt(recipe.getIngredients().size());
+            for (Ingredient ing : recipe.getIngredients()) {
+                ing.write(buf);
+            }
+            buf.writeItemStack(recipe.getOutput(null));
         }
     }
+
 
 }

@@ -1,17 +1,17 @@
 package net.aronkrebs.techreborn.block.entity;
 
 import net.aronkrebs.techreborn.item.ModItems;
+import net.aronkrebs.techreborn.recipe.PulverizerMK1Recipe;
 import net.aronkrebs.techreborn.screen.PulverizerMK1ScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.PropertyDelegate;
@@ -22,6 +22,8 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
@@ -125,10 +127,11 @@ public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScree
     }
 
     private void craftItem() {
-        this.removeStack(INPUT_SLOT, 1);
-        ItemStack result = new ItemStack(ModItems.DIAMOND_DUST);
+        Optional<PulverizerMK1Recipe> recipe = getCurrentRecipe();
 
-        this.setStack(OUTPUT_SLOT1, new ItemStack(result.getItem(), getStack(OUTPUT_SLOT1).getCount() + result.getCount()));
+        this.removeStack(INPUT_SLOT, 1);
+
+        this.setStack(OUTPUT_SLOT1, new ItemStack(recipe.get().getOutput(null).getItem(), getStack(OUTPUT_SLOT1).getCount() + recipe.get().getOutput(null).getCount()));
     }
 
     private boolean hasCraftingFinished() {
@@ -140,10 +143,19 @@ public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScree
     }
 
     private boolean hasRecipe() {
-        ItemStack result = new ItemStack(ModItems.DIAMOND_DUST);
-        boolean hasInput = getStack(INPUT_SLOT).getItem() == Items.DIAMOND;
 
-        return hasInput && canInsertAmountIntoOutputSlot1(result) && canInsertItemIntoOutputSlot1(result.getItem());
+        Optional<PulverizerMK1Recipe> recipe = getCurrentRecipe();
+
+        return recipe.isPresent() && canInsertAmountIntoOutputSlot1(recipe.get().getOutput(null)) && canInsertItemIntoOutputSlot1(recipe.get().getOutput(null).getItem());
+    }
+
+    private Optional<PulverizerMK1Recipe> getCurrentRecipe() {
+        SimpleInventory inv = new SimpleInventory(this.size());
+        for(int i = 0; i < this.size(); i++) {
+            inv.setStack(i, this.getStack(i));
+        }
+
+        return getWorld().getRecipeManager().getFirstMatch(PulverizerMK1Recipe.Type.INSTANCE, inv, getWorld());
     }
 
     private boolean canInsertItemIntoOutputSlot1(Item item) {

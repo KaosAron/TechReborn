@@ -1,0 +1,12 @@
+{
+  "type": "techreborn:pulverizermk1",
+  "ingredients": [
+    {
+      "item": "minecraft:diamond"
+    }
+  ],
+  "output": {
+    "item": "techreborn:diamond_dust",
+    "count": 1
+  }
+}
