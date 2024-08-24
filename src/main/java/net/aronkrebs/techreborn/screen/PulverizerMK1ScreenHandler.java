@@ -34,6 +34,7 @@ public class PulverizerMK1ScreenHandler extends ScreenHandler {
 
         this.addSlot(new Slot(inventory, 0, 44, 34));
         this.addSlot(new Slot(inventory, 1, 119, 25));
+//        this.addSlot(new Slot(inventory, 2, 119, 50));
 
 
         addPlayerInventory(playerInventory);
