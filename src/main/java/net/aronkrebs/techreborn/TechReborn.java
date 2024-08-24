@@ -4,6 +4,7 @@ import net.aronkrebs.techreborn.block.ModBlocks;
 import net.aronkrebs.techreborn.block.entity.ModBlockEntities;
 import net.aronkrebs.techreborn.item.ModItemGroups;
 import net.aronkrebs.techreborn.item.ModItems;
+import net.aronkrebs.techreborn.screen.ModScreenHandlers;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ public class TechReborn implements ModInitializer {
 		ModBlocks.registerModBlocks();
 
 		ModBlockEntities.registerBlockEntities();
+		ModScreenHandlers.registerScreenHandlers();
 
 	}
 }

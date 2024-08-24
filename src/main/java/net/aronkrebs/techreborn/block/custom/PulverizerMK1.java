@@ -1,6 +1,7 @@
 package net.aronkrebs.techreborn.block.custom;
 
 import net.aronkrebs.techreborn.block.entity.Pulverizer_BlockEntity;
+import net.aronkrebs.techreborn.block.entity.ModBlockEntities;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -61,6 +62,7 @@ public class PulverizerMK1 extends BlockWithEntity implements BlockEntityProvide
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return
+        return checkType(type, ModBlockEntities.PULVERIZER_BLOCK_ENTITY,
+                (world1, pos, state1, blockEntity) -> blockEntity.tick(world1, pos, state1));
     }
 }

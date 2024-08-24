@@ -1,5 +1,7 @@
 package net.aronkrebs.techreborn.block.entity;
 
+import net.aronkrebs.techreborn.item.ModItems;
+import net.aronkrebs.techreborn.screen.PulverizerMK1ScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -9,6 +11,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.PropertyDelegate;
@@ -17,6 +20,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
@@ -90,6 +94,67 @@ public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScree
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return ;
+        return new PulverizerMK1ScreenHandler(syncId, playerInventory, this, this.propertyDelegate);
+    }
+
+    public void tick(World world, BlockPos pos, BlockState state) {
+        if (world.isClient()) {
+            return;
+        }
+
+        if(isOutputSlot1EmptyOrReceivable()) {
+            if(this.hasRecipe()) {
+                this.increaseCraftProgress();
+                markDirty(world, pos, state);
+
+                if(hasCraftingFinished()) {
+                    this.craftItem();
+                    this.resetProgress();
+                }
+            } else {
+                this.resetProgress();
+            }
+        } else {
+            this.resetProgress();
+            markDirty(world, pos, state);
+        }
+    }
+
+    private void resetProgress() {
+        this.progress = 0;
+    }
+
+    private void craftItem() {
+        this.removeStack(INPUT_SLOT, 1);
+        ItemStack result = new ItemStack(ModItems.DIAMOND_DUST);
+
+        this.setStack(OUTPUT_SLOT1, new ItemStack(result.getItem(), getStack(OUTPUT_SLOT1).getCount() + result.getCount()));
+    }
+
+    private boolean hasCraftingFinished() {
+        return progress >= maxprogress;
+    }
+
+    private void increaseCraftProgress() {
+        progress++;
+    }
+
+    private boolean hasRecipe() {
+        ItemStack result = new ItemStack(ModItems.DIAMOND_DUST);
+        boolean hasInput = getStack(INPUT_SLOT).getItem() == Items.DIAMOND;
+
+        return hasInput && canInsertAmountIntoOutputSlot1(result) && canInsertItemIntoOutputSlot1(result.getItem());
+    }
+
+    private boolean canInsertItemIntoOutputSlot1(Item item) {
+        return this.getStack(OUTPUT_SLOT1).getItem() == item || this.getStack(OUTPUT_SLOT1).isEmpty();
+    }
+
+    private boolean canInsertAmountIntoOutputSlot1(ItemStack result) {
+        return this.getStack(OUTPUT_SLOT1).getCount() + result.getCount() <= getStack(OUTPUT_SLOT1).getMaxCount();
+    }
+
+    private boolean isOutputSlot1EmptyOrReceivable() {
+        return this.getStack(OUTPUT_SLOT1).isEmpty() || this.getStack(OUTPUT_SLOT1).getCount() < this.getStack(OUTPUT_SLOT1).getMaxCount();
     }
 }
