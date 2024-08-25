@@ -1,10 +1,10 @@
-// 1.20.1	2024-08-22T18:04:26.7634733	Tech Reborn/Model Definitions
+// 1.20.1	2024-08-25T19:32:04.7043399	Tech Reborn/Model Definitions
 5e933832280a0d35c223a3ef73d634d9a5d2b536 assets\techreborn\blockstates\lithium_block.json
 a844d1e2c03ecf5ff4d43f2ee99ed722b1e261c6 assets\techreborn\blockstates\pulverizer_block.json
 8ef01d1703f0513fc763be510e3927b78d02c941 assets\techreborn\models\item\raw_lithium.json
 b80647172c219a5b725ec2bbd1378793c0e5bda0 assets\techreborn\models\item\lithium_ingot.json
-21117ade3a0e80577a85dca978524754b3dd2295 assets\techreborn\models\item\battery.json
 3e2c9f5d24f5f9cd480411449cc95d0c26043012 assets\techreborn\models\block\deepslate_lithium_ore.json
+21117ade3a0e80577a85dca978524754b3dd2295 assets\techreborn\models\item\battery.json
 30dcd01520a4672e351ccf987f3eacd24d84ce14 assets\techreborn\models\block\lithium_block.json
 67f3845e6b086427d415619fcc53fcd1b703eb00 assets\techreborn\models\item\diamond_dust.json
 2ccc49b83e650e273027a73416d1ac412d9a507c assets\techreborn\blockstates\lithium_ore.json

@@ -17,7 +17,7 @@ import java.util.List;
 
 public class PulverizerMK1Recipe implements Recipe<SimpleInventory> {
     private final Identifier id;
-    private final ItemStack output;
+    public final ItemStack output;
     private final List<Ingredient> recipeItems;
 
     public PulverizerMK1Recipe(Identifier id, ItemStack itemStack, List<Ingredient> ingredients) {
