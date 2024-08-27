@@ -15,7 +15,8 @@ import net.minecraft.util.Identifier;
 
 public class ModBlocks {
 
-    public static final Block PULVERIZER_BLOCK = registerBlock("pulverizer_block", new PulverizerMK1(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)));
+    public static final Block PULVERIZER_BLOCK = registerBlock("pulverizer_block", new PulverizerMK1(FabricBlockSettings.copyOf(Blocks.DISPENSER)));
+
     public static final Block LITHIUM_ORE = registerBlock("lithium_ore", new ExperienceDroppingBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)));
     public static final Block DEEPSLATE_LITHIUM_ORE = registerBlock("deepslate_lithium_ore", new ExperienceDroppingBlock(FabricBlockSettings.copyOf(Blocks.DEEPSLATE_IRON_ORE)));
     public static final Block LITHIUM_BLOCK = registerBlock("lithium_block", new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)));

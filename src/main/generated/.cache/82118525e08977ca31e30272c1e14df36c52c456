@@ -1,10 +1,10 @@
-// 1.20.1	2024-08-26T17:06:52.1784142	Tech Reborn/Model Definitions
+// 1.20.1	2024-08-27T19:31:26.5374206	Tech Reborn/Model Definitions
 5e933832280a0d35c223a3ef73d634d9a5d2b536 assets\techreborn\blockstates\lithium_block.json
 a844d1e2c03ecf5ff4d43f2ee99ed722b1e261c6 assets\techreborn\blockstates\pulverizer_block.json
 8ef01d1703f0513fc763be510e3927b78d02c941 assets\techreborn\models\item\raw_lithium.json
 b80647172c219a5b725ec2bbd1378793c0e5bda0 assets\techreborn\models\item\lithium_ingot.json
-21117ade3a0e80577a85dca978524754b3dd2295 assets\techreborn\models\item\battery.json
 3e2c9f5d24f5f9cd480411449cc95d0c26043012 assets\techreborn\models\block\deepslate_lithium_ore.json
+21117ade3a0e80577a85dca978524754b3dd2295 assets\techreborn\models\item\battery.json
 30dcd01520a4672e351ccf987f3eacd24d84ce14 assets\techreborn\models\block\lithium_block.json
 67f3845e6b086427d415619fcc53fcd1b703eb00 assets\techreborn\models\item\diamond_dust.json
 2ccc49b83e650e273027a73416d1ac412d9a507c assets\techreborn\blockstates\lithium_ore.json
@@ -12,6 +12,5 @@ b80647172c219a5b725ec2bbd1378793c0e5bda0 assets\techreborn\models\item\lithium_i
 1d5e94d13d542aae71c01a6fea36e44398efee84 assets\techreborn\models\item\deepslate_lithium_ore.json
 910f37c98b7b6a73a317786b28a4ff6c076836ff assets\techreborn\models\item\pulverizer_block.json
 f7a3c80d5b9fc4226e3749d2f180bbb629fcf20d assets\techreborn\blockstates\deepslate_lithium_ore.json
-6371f766d8f395aba5bc43bd398ec1f833cbf6c6 assets\techreborn\models\block\pulverizer_block.json
 4a3d1b98e5c4ba88c169a6c2a4ed954eacc9ea30 assets\techreborn\models\item\lithium_block.json
 6a88b7a3b232abc13cb02c8bd0a8de5cd2c3f8ca assets\techreborn\models\item\lithium_ore.json

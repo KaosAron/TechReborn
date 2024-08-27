@@ -1,0 +1,6 @@
+{
+  "parent": "techreborn:block/machine",
+  "textures": {
+    "texture": "techreborn:block/pulverizer_block_full"
+  }
+}

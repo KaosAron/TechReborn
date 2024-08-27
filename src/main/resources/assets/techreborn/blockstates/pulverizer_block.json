@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "facing=north": { "model": "techreborn:block/pulverizer_block" },
+    "facing=south": { "model": "techreborn:block/pulverizer_block", "y": 180 },
+    "facing=west":  { "model": "techreborn:block/pulverizer_block", "y": 270 },
+    "facing=east":  { "model": "techreborn:block/pulverizer_block", "y": 90 }
+    }
+  }
+}
