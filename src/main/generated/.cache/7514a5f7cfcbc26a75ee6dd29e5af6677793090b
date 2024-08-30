@@ -1,5 +1,6 @@
-// 1.20.1	2024-08-27T19:31:26.5404203	Tech Reborn/Block Loot Tables
+// 1.20.1	2024-08-30T15:49:01.0223019	Tech Reborn/Block Loot Tables
 47c18d3632f6c141cde89e056bb8d2cf49a1878f data\techreborn\loot_tables\blocks\deepslate_lithium_ore.json
-c95875f2cdf04e151ef6a23dacc0162c9bd73a04 data\techreborn\loot_tables\blocks\lithium_ore.json
+8a99827c6f2891f8f0cb17daae226249f12b4e24 data\techreborn\loot_tables\blocks\coal_generator.json
 a9afb188587b023cba8d0a49eef017c258604d04 data\techreborn\loot_tables\blocks\lithium_block.json
+c95875f2cdf04e151ef6a23dacc0162c9bd73a04 data\techreborn\loot_tables\blocks\lithium_ore.json
 86ef8502b1e1dff6348b04aa10a8031f08ad385f data\techreborn\loot_tables\blocks\pulverizer_block.json

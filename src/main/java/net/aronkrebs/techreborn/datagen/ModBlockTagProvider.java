@@ -21,7 +21,8 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(ModBlocks.LITHIUM_BLOCK)
                 .add(ModBlocks.PULVERIZER_BLOCK)
                 .add(ModBlocks.DEEPSLATE_LITHIUM_ORE)
-                .add(ModBlocks.LITHIUM_ORE);
+                .add(ModBlocks.LITHIUM_ORE)
+                .add(ModBlocks.COAL_GENERATOR);
 
         //getOrCreateTagBuilder(BlockTags.NEEDS_DIAMOND_TOOL)
         //        .add(ModBlocks.)
@@ -32,8 +33,8 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(ModBlocks.DEEPSLATE_LITHIUM_ORE);
 
         getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL)
-                .add(ModBlocks.PULVERIZER_BLOCK);
-
+                .add(ModBlocks.PULVERIZER_BLOCK)
+                .add(ModBlocks.COAL_GENERATOR);
         //getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, new Identifier("fabric", "needs_tool_level_4")))
         //        .add(ModBlocks.)
     }

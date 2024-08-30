@@ -1,5 +1,6 @@
 package net.aronkrebs.techreborn.datagen;
 
+import dev.architectury.platform.Mod;
 import net.aronkrebs.techreborn.block.ModBlocks;
 import net.aronkrebs.techreborn.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -24,6 +25,8 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
     @Override
     public void generate() {
         addDrop(ModBlocks.PULVERIZER_BLOCK);
+        addDrop(ModBlocks.COAL_GENERATOR);
+
         addDrop(ModBlocks.LITHIUM_BLOCK);
 
         addDrop(ModBlocks.LITHIUM_ORE, oreDrops(ModBlocks.LITHIUM_ORE, ModItems.RAW_LITHIUM));
