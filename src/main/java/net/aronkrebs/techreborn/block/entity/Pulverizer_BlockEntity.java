@@ -22,11 +22,22 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import team.reborn.energy.api.EnergyStorage;
+import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import java.util.Optional;
 
 public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
+
+    public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(30000, 32 ,32) {
+        @Override
+        protected void onFinalCommit() {
+            markDirty();
+
+
+        }
+    };
 
     private static final int INPUT_SLOT = 0;
     private static final int OUTPUT_SLOT1 = 1;
@@ -84,6 +95,7 @@ public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScree
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, inventory);
         nbt.putInt("pulverizermk1.progress", progress);
+        nbt.putLong("pulverizermk1.energy", energyStorage.amount);
     }
 
     @Override
@@ -91,6 +103,7 @@ public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScree
         super.readNbt(nbt);
         Inventories.readNbt(nbt, inventory);
         progress = nbt.getInt("pulverizermk1.progress");
+        energyStorage.amount = nbt.getLong("pulverizermk1.energy");
     }
 
     @Nullable
