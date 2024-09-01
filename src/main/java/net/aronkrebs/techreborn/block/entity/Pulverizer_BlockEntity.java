@@ -3,6 +3,7 @@ package net.aronkrebs.techreborn.block.entity;
 import net.aronkrebs.techreborn.item.ModItems;
 import net.aronkrebs.techreborn.networking.ModMessages;
 import net.aronkrebs.techreborn.recipe.PulverizerMK1Recipe;
+import net.aronkrebs.techreborn.screen.PulverizerMK1Screen;
 import net.aronkrebs.techreborn.screen.PulverizerMK1ScreenHandler;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;

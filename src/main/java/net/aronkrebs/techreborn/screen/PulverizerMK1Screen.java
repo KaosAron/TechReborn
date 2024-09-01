@@ -2,16 +2,25 @@ package net.aronkrebs.techreborn.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.aronkrebs.techreborn.TechReborn;
+import net.aronkrebs.techreborn.screen.renderer.EnergyInfoArea;
+import net.aronkrebs.techreborn.util.MouseUtil;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
+import java.util.List;
+import java.util.Optional;
+
 
 public class PulverizerMK1Screen extends HandledScreen<PulverizerMK1ScreenHandler> {
     private static final Identifier TEXTURE = new Identifier(TechReborn.MOD_ID, "textures/gui/pulverizer_block_gui.png");
+
+    private EnergyInfoArea energyInfoArea;
 
     public PulverizerMK1Screen(PulverizerMK1ScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -21,6 +30,20 @@ public class PulverizerMK1Screen extends HandledScreen<PulverizerMK1ScreenHandle
     protected void init() {
         super.init();
         titleX += 52;
+        assignEnergyInfoArea();
+    }
+
+    private void assignEnergyInfoArea() {
+        energyInfoArea = new EnergyInfoArea(((width - backgroundWidth) / 2) + 12,
+                ((height - backgroundHeight) / 2) + 12, handler.blockEntity.energyStorage);
+    }
+
+    @Override
+    protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
+        int x = (width - backgroundWidth) / 2;
+        int y = (height - backgroundHeight) / 2;
+
+        renderEnergyAreaTooltips(context, mouseX, mouseY, x, y);
     }
 
     @Override
@@ -35,12 +58,30 @@ public class PulverizerMK1Screen extends HandledScreen<PulverizerMK1ScreenHandle
         context.drawTexture(TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight);
 
         renderProgressArrow(context, x, y);
+
+        energyInfoArea.draw(context);
     }
+
+    private void renderEnergyAreaTooltips(DrawContext context, int pMouseX, int pMouseY, int x, int y) {
+        if (isMouseAboveArea(pMouseX, pMouseY, x, y, 11, 11, 14, 43)) {
+            List<Text> tooltips = energyInfoArea.getTooltips();
+
+            pMouseX -= x;
+            pMouseY -= y;
+
+            context.drawTooltip(MinecraftClient.getInstance().textRenderer, tooltips, Optional.empty(), pMouseX, pMouseY);
+        }
+    }
+
 
     private void renderProgressArrow(DrawContext context, int x, int y) {
         if(handler.isCrafting()) {
             context.drawTexture(TEXTURE, x + 79, y + 29, 176, 0, 20, handler.getScaledProgress());
         }
+    }
+
+    private boolean isMouseAboveArea(int pMouseX, int pMouseY, int x, int y, int offsetX, int offsetY, int width, int height) {
+        return MouseUtil.isMouseOver(pMouseX, pMouseY, x + offsetX, y + offsetY, width, height);
     }
 
     @Override
