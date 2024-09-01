@@ -20,8 +20,7 @@ public class PulverizerMK1Screen extends HandledScreen<PulverizerMK1ScreenHandle
     @Override
     protected void init() {
         super.init();
-        titleY = 1000;
-        playerInventoryTitleY = 1000;
+        titleX += 52;
     }
 
     @Override
