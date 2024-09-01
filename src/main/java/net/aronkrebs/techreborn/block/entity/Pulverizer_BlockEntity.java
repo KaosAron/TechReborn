@@ -65,7 +65,7 @@ public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScree
 
 
     public Pulverizer_BlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.PULVERIZER_BLOCK_ENTITY ,pos, state);
+        super(ModBlockEntities.PULVERIZER_BLOCK_ENTITY, pos, state);
         this.propertyDelegate = new PropertyDelegate() {
             @Override
             public int get(int index) {
