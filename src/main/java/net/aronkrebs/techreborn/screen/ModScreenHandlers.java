@@ -12,6 +12,10 @@ public class ModScreenHandlers {
             Registry.register(Registries.SCREEN_HANDLER, new Identifier(TechReborn.MOD_ID, "pulverizermk1"),
                     new ExtendedScreenHandlerType<>(PulverizerMK1ScreenHandler::new));
 
+    public static final ScreenHandlerType<Coal_GeneratorScreenHandler> COAL_GENERATOR_SCREEN_HANDLER=
+            Registry.register(Registries.SCREEN_HANDLER, new Identifier(TechReborn.MOD_ID, "coal_generator"),
+                    new ExtendedScreenHandlerType<>(Coal_GeneratorScreenHandler::new));
+
     public static void registerScreenHandlers() {
         TechReborn.LOGGER.info("Registering Screen Handlers for " + TechReborn.MOD_ID);
     }

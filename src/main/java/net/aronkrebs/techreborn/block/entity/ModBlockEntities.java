@@ -14,6 +14,11 @@ public class ModBlockEntities {
                     FabricBlockEntityTypeBuilder.create(Pulverizer_BlockEntity::new,
                             ModBlocks.PULVERIZER_BLOCK).build());
 
+    public static final BlockEntityType<Coal_Generator_BlockEntity> COAL_GENERATOR_BLOCK_ENTITY =
+            Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(TechReborn.MOD_ID, "coal_generator_be"),
+                    FabricBlockEntityTypeBuilder.create(Coal_Generator_BlockEntity::new,
+                            ModBlocks.COAL_GENERATOR).build());
+
     public static void registerBlockEntities() {
         TechReborn.LOGGER.info("Registering Block Entities for " + TechReborn.MOD_ID);
     }
