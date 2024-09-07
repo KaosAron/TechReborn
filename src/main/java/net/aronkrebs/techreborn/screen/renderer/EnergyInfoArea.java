@@ -1,8 +1,10 @@
 package net.aronkrebs.techreborn.screen.renderer;
 
+import net.aronkrebs.techreborn.TechReborn;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.Rect2i;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import team.reborn.energy.api.EnergyStorage;
 
 import java.util.List;
@@ -16,6 +18,9 @@ import java.util.List;
  */
 public class EnergyInfoArea extends InfoArea {
     private final EnergyStorage energy;
+
+    private static final Identifier
+            TEXTURE = new Identifier(TechReborn.MOD_ID, "textures/gui/pulverizer_block_gui.png");
 
     public EnergyInfoArea(int xMin, int yMin)  {
         this(xMin, yMin, null, 14, 42);
@@ -34,14 +39,27 @@ public class EnergyInfoArea extends InfoArea {
         return List.of(Text.literal(energy.getAmount() + "/" + energy.getCapacity() + " E"));
     }
 
+
     @Override
-    public void draw(DrawContext context) {
+    public void draw(DrawContext context, int energyStartX, int energyStartY) {
         final int height = area.getHeight();
+
+        // Calculate the height of the part of the texture to be drawn, based on the energy level
         int stored = (int)(height * (energy.getAmount() / (float)energy.getCapacity()));
-        context.fillGradient(
-                area.getX(), area.getY() + (height - stored),
-                area.getX() + area.getWidth(), area.getY() + area.getHeight(),
-                0xffb51500, 0xff600b00
+
+        // Calculate the position where the texture should start (from bottom to top)
+        int yOffset = height - stored;
+
+        // Render the texture based on the energy level
+
+        context.drawTexture(
+                TEXTURE,
+                area.getX(),
+                area.getY() + yOffset,
+                176,
+                29 + yOffset,
+                14,
+                stored
         );
     }
 }

@@ -20,7 +20,7 @@ public abstract class InfoArea {
         this.area = area;
     }
 
-    public abstract void draw(DrawContext context);
+    public abstract void draw(DrawContext context, int energyStartX, int energyStartY);
 
     protected void drawText(DrawContext context, String text, int x, int y, int color) {
         // TextRenderer über MinecraftClient abrufen

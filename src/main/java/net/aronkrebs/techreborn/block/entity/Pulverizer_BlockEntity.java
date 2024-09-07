@@ -63,6 +63,9 @@ public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScree
     private int progress = 0;
     private int maxprogress = 72;
 
+    private int storedEnergy = 0;
+    private int maxStoredEnergy = 30000;
+
 
     public Pulverizer_BlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.PULVERIZER_BLOCK_ENTITY, pos, state);
@@ -133,8 +136,6 @@ public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScree
     }
 
     public void tick(World world, BlockPos pos, BlockState state) {
-
-
         if (!world.isClient() && hasEnoughEnergy()) {
             if (isOutputSlot1EmptyOrReceivable()) {
                 if (this.hasRecipe()) {

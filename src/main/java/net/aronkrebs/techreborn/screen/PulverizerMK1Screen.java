@@ -18,7 +18,11 @@ import java.util.Optional;
 
 
 public class PulverizerMK1Screen extends HandledScreen<PulverizerMK1ScreenHandler> {
-    private static final Identifier TEXTURE = new Identifier(TechReborn.MOD_ID, "textures/gui/pulverizer_block_gui.png");
+    private static final Identifier
+            TEXTURE = new Identifier(TechReborn.MOD_ID, "textures/gui/pulverizer_block_gui.png");
+
+    int energyStartX = 176;
+    int energyStartY = 29;
 
     private EnergyInfoArea energyInfoArea;
 
@@ -57,9 +61,9 @@ public class PulverizerMK1Screen extends HandledScreen<PulverizerMK1ScreenHandle
 
         context.drawTexture(TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight);
 
-        renderProgressArrow(context, x, y);
+        renderProgressArrow(context, x, y); //The Progress "Blitz" Symbol will be rendered here
 
-        energyInfoArea.draw(context);
+        energyInfoArea.draw(context, energyStartX, energyStartY); //Energy Storage renderer
     }
 
     private void renderEnergyAreaTooltips(DrawContext context, int pMouseX, int pMouseY, int x, int y) {
@@ -76,7 +80,14 @@ public class PulverizerMK1Screen extends HandledScreen<PulverizerMK1ScreenHandle
 
     private void renderProgressArrow(DrawContext context, int x, int y) {
         if(handler.isCrafting()) {
-            context.drawTexture(TEXTURE, x + 79, y + 29, 176, 0, 20, handler.getScaledProgress());
+            context.drawTexture(
+                    TEXTURE,                //Was soll gedrawed werden
+                    x + 79,                 //Wohin x
+                    y + 29,                 //Wohin y
+                    176,                    //Wo beginnt x
+                    0,                      //Wo beginnt y
+                    20,                     //Wie breit x obv
+                    handler.getScaledProgress());
         }
     }
 
