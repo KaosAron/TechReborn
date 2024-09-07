@@ -5,6 +5,7 @@ import net.aronkrebs.techreborn.block.entity.ModBlockEntities;
 import net.aronkrebs.techreborn.datagen.ModWorldGenerator;
 import net.aronkrebs.techreborn.item.ModItemGroups;
 import net.aronkrebs.techreborn.item.ModItems;
+import net.aronkrebs.techreborn.networking.ModMessages;
 import net.aronkrebs.techreborn.recipe.ModRecipes;
 import net.aronkrebs.techreborn.screen.ModScreenHandlers;
 import net.aronkrebs.techreborn.world.gen.ModWorldGeneration;
@@ -30,5 +31,7 @@ public class TechReborn implements ModInitializer {
 		ModRecipes.registerRecipes();
 
 		ModWorldGeneration.generateModWorldGen();
+
+		ModMessages.registerS2CPackets();
 	}
 }

@@ -7,6 +7,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import team.reborn.energy.api.EnergyStorage;
 
 public class ModBlockEntities {
     public static final BlockEntityType<Pulverizer_BlockEntity> PULVERIZER_BLOCK_ENTITY =
@@ -16,5 +17,6 @@ public class ModBlockEntities {
 
     public static void registerBlockEntities() {
         TechReborn.LOGGER.info("Registering Block Entities for " + TechReborn.MOD_ID);
+        EnergyStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.energyStorage, PULVERIZER_BLOCK_ENTITY);
     }
 }

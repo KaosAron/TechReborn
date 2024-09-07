@@ -1,9 +1,16 @@
 package net.aronkrebs.techreborn.block.entity;
 
 import net.aronkrebs.techreborn.item.ModItems;
+import net.aronkrebs.techreborn.networking.ModMessages;
 import net.aronkrebs.techreborn.recipe.PulverizerMK1Recipe;
+import net.aronkrebs.techreborn.screen.PulverizerMK1Screen;
 import net.aronkrebs.techreborn.screen.PulverizerMK1ScreenHandler;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,16 +24,36 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import java.util.Optional;
 
 public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
+
+    public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(30000, 32 ,32) {
+        @Override
+        protected void onFinalCommit() {
+            markDirty();
+            if (!world.isClient()) {
+                PacketByteBuf data = PacketByteBufs.create();
+                data.writeLong(amount);
+                data.writeBlockPos(getPos());
+
+                for (ServerPlayerEntity player : PlayerLookup.tracking((ServerWorld) world, getPos())) {
+                    ServerPlayNetworking.send(player, ModMessages.ENERGY_SYNC, data);
+                }
+
+            }
+
+        }
+    };
 
     private static final int INPUT_SLOT = 0;
     private static final int OUTPUT_SLOT1 = 1;
@@ -36,9 +63,12 @@ public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScree
     private int progress = 0;
     private int maxprogress = 72;
 
+    private int storedEnergy = 0;
+    private int maxStoredEnergy = 30000;
+
 
     public Pulverizer_BlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.PULVERIZER_BLOCK_ENTITY ,pos, state);
+        super(ModBlockEntities.PULVERIZER_BLOCK_ENTITY, pos, state);
         this.propertyDelegate = new PropertyDelegate() {
             @Override
             public int get(int index) {
@@ -64,6 +94,10 @@ public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScree
         };
     }
 
+    public void setEnergyLevel(long energyLevel) {
+        this.energyStorage.amount = energyLevel;
+    }
+
     @Override
     public DefaultedList<ItemStack> getItems() {
         return inventory;
@@ -84,6 +118,7 @@ public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScree
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, inventory);
         nbt.putInt("pulverizermk1.progress", progress);
+        nbt.putLong("pulverizermk1.energy", energyStorage.amount);
     }
 
     @Override
@@ -91,6 +126,7 @@ public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScree
         super.readNbt(nbt);
         Inventories.readNbt(nbt, inventory);
         progress = nbt.getInt("pulverizermk1.progress");
+        energyStorage.amount = nbt.getLong("pulverizermk1.energy");
     }
 
     @Nullable
@@ -100,26 +136,36 @@ public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScree
     }
 
     public void tick(World world, BlockPos pos, BlockState state) {
-        if (world.isClient()) {
-            return;
-        }
+        if (!world.isClient() && hasEnoughEnergy()) {
+            if (isOutputSlot1EmptyOrReceivable()) {
+                if (this.hasRecipe()) {
+                    this.increaseCraftProgress();
+                    this.extractEnergy();
+                    markDirty(world, pos, state);
 
-        if(isOutputSlot1EmptyOrReceivable()) {
-            if(this.hasRecipe()) {
-                this.increaseCraftProgress();
-                markDirty(world, pos, state);
-
-                if(hasCraftingFinished()) {
-                    this.craftItem();
+                    if (hasCraftingFinished()) {
+                        this.craftItem();
+                        this.resetProgress();
+                    }
+                } else {
                     this.resetProgress();
                 }
             } else {
                 this.resetProgress();
+                markDirty(world, pos, state);
             }
-        } else {
-            this.resetProgress();
-            markDirty(world, pos, state);
         }
+    }
+
+    private void extractEnergy() {
+        try(Transaction transaction = Transaction.openOuter()) {
+            energyStorage.extract(32, transaction);
+            transaction.commit();
+        }
+    }
+
+    private boolean hasEnoughEnergy() {
+        return energyStorage.amount >= 32;
     }
 
     private void resetProgress() {
