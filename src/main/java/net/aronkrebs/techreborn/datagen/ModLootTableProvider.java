@@ -24,6 +24,8 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
     @Override
     public void generate() {
         addDrop(ModBlocks.PULVERIZER_BLOCK);
+        addDrop(ModBlocks.SOLAR_GENERATOR_MK1);
+
         addDrop(ModBlocks.LITHIUM_BLOCK);
 
         addDrop(ModBlocks.LITHIUM_ORE, oreDrops(ModBlocks.LITHIUM_ORE, ModItems.RAW_LITHIUM));

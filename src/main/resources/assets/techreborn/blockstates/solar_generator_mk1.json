@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "facing=north": { "model": "techreborn:block/solar_generator_mk1" },
+    "facing=south": { "model": "techreborn:block/solar_generator_mk1", "y": 180 },
+    "facing=west":  { "model": "techreborn:block/solar_generator_mk1", "y": 270 },
+    "facing=east":  { "model": "techreborn:block/solar_generator_mk1", "y": 90 }
+  }
+}
+}

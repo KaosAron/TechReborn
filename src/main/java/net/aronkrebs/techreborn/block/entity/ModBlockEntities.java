@@ -15,8 +15,14 @@ public class ModBlockEntities {
                     FabricBlockEntityTypeBuilder.create(Pulverizer_BlockEntity::new,
                             ModBlocks.PULVERIZER_BLOCK).build());
 
+    public static final BlockEntityType<Pulverizer_BlockEntity> SOLAR_GENERATOR_MK1_BLOCK_ENTITY =
+            Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(TechReborn.MOD_ID, "solar_generator_mk1_be"),
+                    FabricBlockEntityTypeBuilder.create(Pulverizer_BlockEntity::new,
+                            ModBlocks.SOLAR_GENERATOR_MK1).build());
+
     public static void registerBlockEntities() {
         TechReborn.LOGGER.info("Registering Block Entities for " + TechReborn.MOD_ID);
         EnergyStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.energyStorage, PULVERIZER_BLOCK_ENTITY);
+        EnergyStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.energyStorage, SOLAR_GENERATOR_MK1_BLOCK_ENTITY);
     }
 }
