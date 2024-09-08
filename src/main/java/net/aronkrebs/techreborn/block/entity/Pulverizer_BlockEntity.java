@@ -106,6 +106,7 @@ public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScree
     @Override
     public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
         buf.writeBlockPos(this.pos);
+        buf.writeLong(this.energyStorage.amount);
     }
 
     @Override
