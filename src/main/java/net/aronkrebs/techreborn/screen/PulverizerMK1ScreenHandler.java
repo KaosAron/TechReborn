@@ -21,6 +21,9 @@ public class PulverizerMK1ScreenHandler extends ScreenHandler {
     public PulverizerMK1ScreenHandler(int syncId, PlayerInventory inventory, PacketByteBuf buf) {
         this(syncId, inventory, inventory.player.getWorld().getBlockEntity(buf.readBlockPos()),
                 new ArrayPropertyDelegate(2));
+
+        long energy = buf.readLong();           //Get and Set the Energy Level on opening GUI
+        this.blockEntity.setEnergyLevel(energy);
     }
 
     public PulverizerMK1ScreenHandler(int syncId, PlayerInventory playerInventory,
