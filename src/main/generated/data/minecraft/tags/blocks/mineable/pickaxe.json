@@ -2,9 +2,8 @@
   "replace": false,
   "values": [
     "techreborn:lithium_block",
-    "techreborn:deepslate_lithium_ore",
-    "techreborn:lithium_ore",
     "techreborn:pulverizer_block",
-    "techreborn:solar_generator_mk1"
+    "techreborn:deepslate_lithium_ore",
+    "techreborn:lithium_ore"
   ]
 }

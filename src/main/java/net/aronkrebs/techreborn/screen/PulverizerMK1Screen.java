@@ -21,8 +21,8 @@ public class PulverizerMK1Screen extends HandledScreen<PulverizerMK1ScreenHandle
     private static final Identifier
             TEXTURE = new Identifier(TechReborn.MOD_ID, "textures/gui/pulverizer_block_gui.png");
 
-    int energyStartX = 176; //x Energy Storage start in GUI.png
-    int energyStartY = 29; //y Energy Storage start in GUI.png
+    int energyStartX = 176;
+    int energyStartY = 29;
 
     private EnergyInfoArea energyInfoArea;
 
@@ -33,6 +33,7 @@ public class PulverizerMK1Screen extends HandledScreen<PulverizerMK1ScreenHandle
     @Override
     protected void init() {
         super.init();
+        titleX += 52;
         assignEnergyInfoArea();
     }
 

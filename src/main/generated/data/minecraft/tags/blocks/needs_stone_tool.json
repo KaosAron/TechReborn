@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "techreborn:pulverizer_block",
-    "techreborn:solar_generator_mk1"
+    "techreborn:pulverizer_block"
   ]
 }

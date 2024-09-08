@@ -7,9 +7,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import team.reborn.energy.api.EnergyStorage;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.List;
 
 /*
@@ -39,10 +36,7 @@ public class EnergyInfoArea extends InfoArea {
     }
 
     public List<Text> getTooltips() {
-        double amountInKE = (double) Math.round(energy.getAmount() * 10.0) / 10000.0;
-        double capacityInKE = (double) Math.round(energy.getCapacity() * 10.0) / 10000.0;
-
-        return List.of(Text.literal(amountInKE + "k / " + capacityInKE + "k RF"));
+        return List.of(Text.literal(energy.getAmount() + "/" + energy.getCapacity() + " E"));
     }
 
 
