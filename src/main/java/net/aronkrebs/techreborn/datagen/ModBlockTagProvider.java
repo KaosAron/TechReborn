@@ -17,24 +17,27 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
     @Override
     protected void configure(RegistryWrapper.WrapperLookup arg) {
 
-        getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
+        getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)       // Needs Pickaxe to get mined
                 .add(ModBlocks.LITHIUM_BLOCK)
-                .add(ModBlocks.PULVERIZER_BLOCK)
                 .add(ModBlocks.DEEPSLATE_LITHIUM_ORE)
-                .add(ModBlocks.LITHIUM_ORE);
+                .add(ModBlocks.LITHIUM_ORE)
 
-        //getOrCreateTagBuilder(BlockTags.NEEDS_DIAMOND_TOOL)
-        //        .add(ModBlocks.)
+                .add(ModBlocks.PULVERIZER_BLOCK)
+                .add(ModBlocks.SOLAR_GENERATOR_MK1);
 
-        getOrCreateTagBuilder(BlockTags.NEEDS_IRON_TOOL)
+        getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL)       // Needs Stone Tool Level to get mined
+                .add(ModBlocks.PULVERIZER_BLOCK)
+                .add(ModBlocks.SOLAR_GENERATOR_MK1);
+
+        getOrCreateTagBuilder(BlockTags.NEEDS_IRON_TOOL)        // Needs Iron Tool Level to get mined
                 .add(ModBlocks.LITHIUM_ORE)
                 .add(ModBlocks.LITHIUM_BLOCK)
                 .add(ModBlocks.DEEPSLATE_LITHIUM_ORE);
 
-        getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL)
-                .add(ModBlocks.PULVERIZER_BLOCK);
+        //getOrCreateTagBuilder(BlockTags.NEEDS_DIAMOND_TOOL)   // Needs Diamond Tool Level to get mined
+        //        .add(ModBlocks.)
 
-        //getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, new Identifier("fabric", "needs_tool_level_4")))
+        //getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, new Identifier("fabric", "needs_tool_level_4")))      // Needs Netherite Tool Level to get mined
         //        .add(ModBlocks.)
     }
 }
