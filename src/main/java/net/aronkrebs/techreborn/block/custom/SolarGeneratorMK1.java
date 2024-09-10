@@ -1,5 +1,7 @@
 package net.aronkrebs.techreborn.block.custom;
 
+import net.aronkrebs.techreborn.block.entity.ModBlockEntities;
+import net.aronkrebs.techreborn.block.entity.SolarGeneratorMK1_BlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -29,7 +31,7 @@ public class SolarGeneratorMK1 extends BlockWithEntity implements BlockEntityPro
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return null;
+        return new SolarGeneratorMK1_BlockEntity(pos, state);
     }
 
 

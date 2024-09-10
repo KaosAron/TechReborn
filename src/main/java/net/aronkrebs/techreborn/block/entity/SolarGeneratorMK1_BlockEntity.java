@@ -11,8 +11,11 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -25,9 +28,9 @@ import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
-public class SolarGeneratorMK1_BlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory  {
+public class SolarGeneratorMK1_BlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory  {
 
-    public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(8000, 0 ,32) {
+    public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(8000, 16 ,32) {
         @Override
         protected void onFinalCommit() {
             markDirty();
@@ -45,17 +48,13 @@ public class SolarGeneratorMK1_BlockEntity extends BlockEntity implements Extend
         }
     };
 
-    public SolarGeneratorMK1_BlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
+
+    public SolarGeneratorMK1_BlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.SOLAR_GENERATOR_MK1_BLOCK_ENTITY, pos, state);
     }
 
     public void setEnergyLevel(long energyLevel) {
         this.energyStorage.amount = energyLevel;
-    }
-
-    @Override
-    public DefaultedList<ItemStack> getItems() {
-        return null;
     }
 
     @Override
@@ -66,7 +65,19 @@ public class SolarGeneratorMK1_BlockEntity extends BlockEntity implements Extend
 
     @Override
     public Text getDisplayName() {
-        return null;
+        return Text.literal("Solar Generator MK1");
+    }
+
+    @Override
+    protected void writeNbt(NbtCompound nbt) {
+        super.writeNbt(nbt);
+        nbt.putLong("solar_generator_mk1.energy", energyStorage.amount);
+    }
+
+    @Override
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
+        energyStorage.amount = nbt.getLong("solar_generator_mk1.energy");
     }
 
     @Nullable
