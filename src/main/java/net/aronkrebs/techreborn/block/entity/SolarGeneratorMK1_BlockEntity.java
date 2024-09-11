@@ -86,21 +86,13 @@ public class SolarGeneratorMK1_BlockEntity extends BlockEntity implements Extend
         return null;
     }
 
+
     public void tick(World world, BlockPos pos, BlockState state) {
         if (!world.isClient() && hasEnoughEnergy()) {
             if(world.isDay()) {
-
-                long energyToExtract = energyStorage.maxExtract;
-
-                try (Transaction transaction = Transaction.openOuter()) {
-                    // Energie abziehen (mit der neuen Methode in API 3.0.0)
-                    long extractedEnergy = energyStorage.extract(energyToExtract, transaction);
-
-                    // Wenn Energie erfolgreich abgezogen wurde, an benachbarte BlockEntities verteilen
-                    if (extractedEnergy > 0) {
-                        distributeEnergy(world, pos, extractedEnergy, transaction);
-                        transaction.commit(); // Commit der Transaktion, wenn alles erfolgreich ist
-                    }
+                try(Transaction transaction = Transaction.openOuter()) {
+                    energyStorage.insert(16, transaction);
+                    transaction.commit();
                 }
             }
         }

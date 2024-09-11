@@ -1,8 +1,11 @@
 package net.aronkrebs.techreborn.block.custom;
 
+import net.aronkrebs.techreborn.block.entity.ModBlockEntities;
 import net.aronkrebs.techreborn.block.entity.SolarGeneratorMK1_BlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
@@ -11,6 +14,7 @@ import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class SolarGeneratorMK1 extends BlockWithEntity implements BlockEntityProvider {
@@ -31,6 +35,13 @@ public class SolarGeneratorMK1 extends BlockWithEntity implements BlockEntityPro
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new SolarGeneratorMK1_BlockEntity(pos, state);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return checkType(type, ModBlockEntities.SOLAR_GENERATOR_MK1_BLOCK_ENTITY,
+                (world1, pos, state1, blockEntity) -> blockEntity.tick(world1, pos, state1));
     }
 
 
