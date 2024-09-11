@@ -1,6 +1,7 @@
 package net.aronkrebs.techreborn.block.entity;
 
 import net.aronkrebs.techreborn.networking.ModMessages;
+import net.aronkrebs.techreborn.screen.SolarGeneratorMK1ScreenHandler;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -48,9 +49,27 @@ public class SolarGeneratorMK1_BlockEntity extends BlockEntity implements Extend
         }
     };
 
+    protected final PropertyDelegate propertyDelegate;
+
 
     public SolarGeneratorMK1_BlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.SOLAR_GENERATOR_MK1_BLOCK_ENTITY, pos, state);
+        this.propertyDelegate = new PropertyDelegate() {
+            @Override
+            public int get(int index) {
+                return 0;
+            }
+
+            @Override
+            public void set(int index, int value) {
+
+            }
+
+            @Override
+            public int size() {
+                return 0;
+            }
+        };
     }
 
     public void setEnergyLevel(long energyLevel) {
@@ -83,7 +102,7 @@ public class SolarGeneratorMK1_BlockEntity extends BlockEntity implements Extend
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return null;
+        return new SolarGeneratorMK1ScreenHandler(syncId, playerInventory, this, this.propertyDelegate);
     }
 
 
