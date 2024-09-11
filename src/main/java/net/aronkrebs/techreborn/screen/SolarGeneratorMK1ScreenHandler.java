@@ -1,6 +1,5 @@
 package net.aronkrebs.techreborn.screen;
 
-import net.aronkrebs.techreborn.block.entity.Pulverizer_BlockEntity;
 import net.aronkrebs.techreborn.block.entity.SolarGeneratorMK1_BlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,33 +10,25 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
-import org.jetbrains.annotations.Nullable;
 
 public class SolarGeneratorMK1ScreenHandler extends ScreenHandler {
-    private final Inventory inventory;
-    public SolarGeneratorMK1_BlockEntity blockEntity = null;
+    public SolarGeneratorMK1_BlockEntity blockEntity;
 
     protected SolarGeneratorMK1ScreenHandler(int syncId, PlayerInventory inventory, PacketByteBuf buf) {
-        this(syncId, inventory, inventory.player.getWorld().getBlockEntity(buf.readBlockPos()),
-                new ArrayPropertyDelegate(2));
+        this(syncId, inventory, inventory.player.getWorld().getBlockEntity(buf.readBlockPos()));
 
         long energy = buf.readLong();           //Get and Set the Energy Level on opening GUI
         this.blockEntity.setEnergyLevel(energy);
     }
 
-    public SolarGeneratorMK1ScreenHandler(int syncId, PlayerInventory playerInventory, BlockEntity blockEntity, PropertyDelegate arrayPropertyDelegate) {
+    public SolarGeneratorMK1ScreenHandler(int syncId, PlayerInventory playerInventory, BlockEntity blockEntity) {
         super(ModScreenHandlers.SOLARGENERATORMK1_SCREEN_HANDLER, syncId);
-        checkSize(((Inventory) blockEntity), 2);
-        this.inventory = ((Inventory) blockEntity);
-        inventory.onOpen(playerInventory.player);
         this.blockEntity = ((SolarGeneratorMK1_BlockEntity) blockEntity);
 
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
 
-        addProperties(arrayPropertyDelegate);
     }
 
     @Override
@@ -47,7 +38,7 @@ public class SolarGeneratorMK1ScreenHandler extends ScreenHandler {
 
     @Override
     public boolean canUse(PlayerEntity player) {
-        return false;
+        return true;
     }
 
     private void addPlayerInventory(PlayerInventory playerInventory) {

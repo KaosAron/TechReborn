@@ -40,7 +40,9 @@ public class PulverizerMK1Screen extends HandledScreen<PulverizerMK1ScreenHandle
         energyInfoArea = new EnergyInfoArea(
                 ((width - backgroundWidth) / 2) + 12,
                 ((height - backgroundHeight) / 2) + 12,
-                handler.blockEntity.energyStorage);
+                handler.blockEntity.energyStorage,
+                14, 42,
+                TEXTURE);
     }
 
     @Override
