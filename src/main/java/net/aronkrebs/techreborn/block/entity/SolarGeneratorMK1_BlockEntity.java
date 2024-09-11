@@ -28,9 +28,9 @@ import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
-public class SolarGeneratorMK1_BlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory  {
+public class SolarGeneratorMK1_BlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory {
 
-    public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(8000, 16 ,32) {
+    public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(8000, 0, 16) {
         @Override
         protected void onFinalCommit() {
             markDirty();
@@ -88,13 +88,61 @@ public class SolarGeneratorMK1_BlockEntity extends BlockEntity implements Extend
 
 
     public void tick(World world, BlockPos pos, BlockState state) {
-        if (!world.isClient() && hasEnoughEnergy()) {
-            if(world.isDay()) {
-                try(Transaction transaction = Transaction.openOuter()) {
-                    energyStorage.insert(16, transaction);
-                    transaction.commit();
+        if (!world.isClient()) {
+            if (world.isDay()) {
+                energyStorage.amount = Math.min(energyStorage.amount + 16, energyStorage.capacity);
+                markDirty();  // Sicherstellen, dass der Block als geändert markiert wird
+            }
+
+            // Äußere Transaktion eröffnen
+            try (Transaction transaction = Transaction.openOuter()) {
+                if (hasEnoughEnergy() && hasValidProvider(transaction)) {  // Übergib die Transaktion
+                    long energyToExtract = energyStorage.maxExtract;
+
+                    long extractedEnergy = energyStorage.extract(energyToExtract, transaction);
+                    if (extractedEnergy > 0) {
+                        distributeEnergy(world, pos, extractedEnergy, transaction);  // Übergib die Transaktion
+                        transaction.commit();  // Committe die Transaktion
+                    }
                 }
             }
+        }
+    }
+
+    private boolean hasValidProvider(@Nullable Transaction outerTransaction) {
+        boolean isOuterTransactionOwner = false;
+
+        // Wenn keine äußere Transaktion vorhanden ist, eröffne eine neue
+        if (outerTransaction == null) {
+            outerTransaction = Transaction.openOuter();  // Eröffne eine äußere Transaktion
+            isOuterTransactionOwner = true;  // Kennzeichne, dass diese Methode die Transaktion kontrolliert
+        }
+
+        try {
+            long energyToExtract = energyStorage.maxExtract;
+
+            // Prüfen, ob es einen Empfänger gibt
+            for (Direction direction : Direction.values()) {
+                BlockPos neighborPos = pos.offset(direction);
+                EnergyStorage neighborStorage = EnergyStorage.SIDED.find(world, neighborPos, direction.getOpposite());
+
+                if (neighborStorage != null && neighborStorage.insert(energyToExtract, outerTransaction) > 0) {
+                    // Wenn eine erfolgreiche Einfügung der Energie möglich ist, committe und gib true zurück
+                    if (isOuterTransactionOwner) {
+                        outerTransaction.commit();
+                    }
+                    return true;
+                }
+            }
+
+            // Falls keine gültigen Empfänger gefunden wurden, gib false zurück
+            return false;
+        } catch (Exception e) {
+            System.err.println("Fehler beim Überprüfen von Energiequellen: " + e.getMessage());
+            if (isOuterTransactionOwner) {
+                outerTransaction.abort();  // Abbrechen bei Fehler
+            }
+            return false;
         }
     }
 
@@ -108,11 +156,14 @@ public class SolarGeneratorMK1_BlockEntity extends BlockEntity implements Extend
             EnergyStorage neighborStorage = EnergyStorage.SIDED.find(world, neighborPos, direction.getOpposite());
 
             if (neighborStorage != null) {
-                // Übertragen der Energie an den Nachbarblock mit der neuen insert-Methode und einer Transaktion
-                long acceptedEnergy = neighborStorage.insert(energy, transaction);
-
-                // Energie abziehen, die erfolgreich übertragen wurde
-                energyStorage.extract(acceptedEnergy, transaction);
+                try (Transaction nestedTransaction = Transaction.openNested(transaction)) {
+                    long acceptedEnergy = neighborStorage.insert(energy, nestedTransaction);
+                    energyStorage.extract(acceptedEnergy, nestedTransaction);
+                    nestedTransaction.commit();
+                } catch (Exception e) {
+                    // Fange unerwartete Fehler ab
+                    System.err.println("Fehler beim Übertragen von Energie: " + e.getMessage());
+                }
             }
         }
     }
