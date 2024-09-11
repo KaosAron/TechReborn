@@ -1,6 +1,5 @@
 package net.aronkrebs.techreborn.block.custom;
 
-import net.aronkrebs.techreborn.block.entity.ModBlockEntities;
 import net.aronkrebs.techreborn.block.entity.SolarGeneratorMK1_BlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
