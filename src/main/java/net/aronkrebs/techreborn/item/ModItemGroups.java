@@ -24,6 +24,8 @@ public class ModItemGroups {
                         entries.add(ModItems.RAW_LITHIUM);
 
                         entries.add(ModBlocks.PULVERIZER_BLOCK);
+                        entries.add(ModBlocks.SOLAR_GENERATOR_MK1);
+
                         entries.add(ModBlocks.LITHIUM_ORE);
                         entries.add(ModBlocks.DEEPSLATE_LITHIUM_ORE);
                         entries.add(ModBlocks.LITHIUM_BLOCK);

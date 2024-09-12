@@ -1,11 +1,8 @@
 package net.aronkrebs.techreborn.block.entity;
 
-import net.aronkrebs.techreborn.item.ModItems;
 import net.aronkrebs.techreborn.networking.ModMessages;
 import net.aronkrebs.techreborn.recipe.PulverizerMK1Recipe;
-import net.aronkrebs.techreborn.screen.PulverizerMK1Screen;
 import net.aronkrebs.techreborn.screen.PulverizerMK1ScreenHandler;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -37,7 +34,7 @@ import java.util.Optional;
 public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
 
-    public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(30000, 32 ,32) {
+    public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(30000, 32 ,16) {
         @Override
         protected void onFinalCommit() {
             markDirty();
@@ -61,10 +58,7 @@ public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScree
 
     protected final PropertyDelegate propertyDelegate;
     private int progress = 0;
-    private int maxprogress = 72;
-
-    private int storedEnergy = 0;
-    private int maxStoredEnergy = 30000;
+    private int maxProgress = 72;
 
 
     public Pulverizer_BlockEntity(BlockPos pos, BlockState state) {
@@ -74,7 +68,7 @@ public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScree
             public int get(int index) {
                 return switch (index)  {
                     case 0 -> Pulverizer_BlockEntity.this.progress;
-                    case 1 -> Pulverizer_BlockEntity.this.maxprogress;
+                    case 1 -> Pulverizer_BlockEntity.this.maxProgress;
                     default -> 0;
                 };
             }
@@ -83,7 +77,7 @@ public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScree
             public void set(int index, int value) {
                 switch (index) {
                     case 0 -> Pulverizer_BlockEntity.this.progress = value;
-                    case 1 -> Pulverizer_BlockEntity.this.maxprogress = value;
+                    case 1 -> Pulverizer_BlockEntity.this.maxProgress = value;
                 }
             }
 
@@ -111,7 +105,7 @@ public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScree
 
     @Override
     public Text getDisplayName() {
-        return Text.literal("Pulverizer");
+        return Text.translatable("pulverizer_translate","Pulverizer");
     }
 
     @Override
@@ -182,7 +176,7 @@ public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScree
     }
 
     private boolean hasCraftingFinished() {
-        return progress >= maxprogress;
+        return progress >= maxProgress;
     }
 
     private void increaseCraftProgress() {

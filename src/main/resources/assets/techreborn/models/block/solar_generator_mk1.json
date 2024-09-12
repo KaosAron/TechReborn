@@ -1,0 +1,6 @@
+{
+  "parent": "techreborn:block/machine",
+  "textures": {
+    "texture": "techreborn:block/solar_generator_mk1_full"
+  }
+}
