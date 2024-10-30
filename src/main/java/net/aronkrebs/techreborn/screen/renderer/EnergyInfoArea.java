@@ -1,6 +1,5 @@
 package net.aronkrebs.techreborn.screen.renderer;
 
-import net.aronkrebs.techreborn.TechReborn;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.Rect2i;
 import net.minecraft.text.Text;
@@ -17,49 +16,43 @@ import java.util.List;
  *  Details can be found in the license file in the root folder of this project
  */
 public class EnergyInfoArea extends InfoArea {
-    private final EnergyStorage energy;
+    private long energyAmount;
+    private final long energyCapacity;
 
-    private Identifier TEXTURE;
-            // new Identifier(TechReborn.MOD_ID, "textures/gui/solar_generator_mk1_gui.png");
-
-//    public EnergyInfoArea(int xMin, int yMin)  {
-//        this(xMin, yMin, null, 14, 42);
-//    }
-//
-//    public EnergyInfoArea(int xMin, int yMin, EnergyStorage energy)  {
-//        this(xMin, yMin, energy, 14, 42);
-//    }
+    private final Identifier TEXTURE;
 
     public EnergyInfoArea(int xMin, int yMin, EnergyStorage energy, int width, int height, Identifier TEXTURE)  {
         super(new Rect2i(xMin, yMin, width, height));
-        this.energy = energy;
+        this.energyAmount = energy.getAmount();
+        this.energyCapacity = energy.getCapacity();
         this.TEXTURE = TEXTURE;
     }
 
-    public List<Text> getTooltips() {
-        return List.of(Text.literal(energy.getAmount() + "/" + energy.getCapacity() + " E"));
+    // Methode zum Setzen des Energielevels
+    public void setEnergyLevel(long energyAmount) {
+        this.energyAmount = energyAmount;
     }
 
+    public List<Text> getTooltips() {
+        return List.of(Text.literal(energyAmount + "/" + energyCapacity + " E"));
+    }
 
     @Override
     public void draw(DrawContext context, int energyStartX, int energyStartY) {
         final int height = area.getHeight();
 
-        // Calculate the height of the part of the texture to be drawn, based on the energy level
-        int stored = (int)(height * (energy.getAmount() / (float)energy.getCapacity()));
+        // Berechnung der Höhe basierend auf dem Energielevel
+        int stored = (int)(height * (energyAmount / (float) energyCapacity));
 
-        // Calculate the position where the texture should start (from bottom to top)
+        // Zeichne das Energiebild basierend auf dem gespeicherten Energielevel
         int yOffset = height - stored;
-
-        // Render the texture based on the energy level
-
         context.drawTexture(
                 TEXTURE,
                 area.getX(),
                 area.getY() + yOffset,
-                176,
-                29 + yOffset,
-                14,
+                energyStartX,
+                energyStartY + yOffset,
+                area.getWidth(),
                 stored
         );
     }

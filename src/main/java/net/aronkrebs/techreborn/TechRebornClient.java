@@ -1,6 +1,5 @@
 package net.aronkrebs.techreborn;
 
-import net.aronkrebs.techreborn.block.custom.SolarGeneratorMK1;
 import net.aronkrebs.techreborn.screen.ModScreenHandlers;
 import net.aronkrebs.techreborn.screen.PulverizerMK1Screen;
 import net.aronkrebs.techreborn.screen.SolarGeneratorMK1Screen;

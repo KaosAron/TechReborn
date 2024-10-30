@@ -25,7 +25,7 @@ public class EnergySyncS2CPacket {
             }
         }
 
-        else if (client.world.getBlockEntity(position) instanceof SolarGeneratorMK1_BlockEntity blockEntity) {
+        if (client.world.getBlockEntity(position) instanceof SolarGeneratorMK1_BlockEntity blockEntity) {
             blockEntity.setEnergyLevel(energy);
 
             if (client.player.currentScreenHandler instanceof SolarGeneratorMK1ScreenHandler screenHandler &&

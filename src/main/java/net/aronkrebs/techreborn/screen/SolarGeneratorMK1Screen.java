@@ -63,6 +63,7 @@ public class SolarGeneratorMK1Screen extends HandledScreen<SolarGeneratorMK1Scre
 
         context.drawTexture(TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight);
 
+        energyInfoArea.setEnergyLevel(handler.getEnergy()); // Hier wird die Energie aus dem PropertyDelegate geholt
         energyInfoArea.draw(context, energyStartX, energyStartY); //Energy Storage renderer
     }
 

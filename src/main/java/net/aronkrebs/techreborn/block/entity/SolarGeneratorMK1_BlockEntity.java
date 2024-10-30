@@ -9,19 +9,14 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -35,7 +30,7 @@ public class SolarGeneratorMK1_BlockEntity extends BlockEntity implements Extend
         @Override
         protected void onFinalCommit() {
             markDirty();
-            if (!world.isClient()) {
+            if (world != null && !world.isClient()) {
                 PacketByteBuf data = PacketByteBufs.create();
                 data.writeLong(amount);
                 data.writeBlockPos(getPos());
@@ -91,7 +86,7 @@ public class SolarGeneratorMK1_BlockEntity extends BlockEntity implements Extend
         if (!world.isClient()) {
             if (world.isDay()) {
                 energyStorage.amount = Math.min(energyStorage.amount + 16, energyStorage.capacity);
-                markDirty();  // Sicherstellen, dass der Block als geändert markiert wird
+                markDirty();  // Sicherstellen, dass der Block als geändert markiert
             }
 
             // Äußere Transaktion eröffnen

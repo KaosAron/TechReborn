@@ -4,7 +4,6 @@ import net.aronkrebs.techreborn.block.entity.SolarGeneratorMK1_BlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ArrayPropertyDelegate;
@@ -14,6 +13,8 @@ import net.minecraft.screen.slot.Slot;
 
 public class SolarGeneratorMK1ScreenHandler extends ScreenHandler {
     public SolarGeneratorMK1_BlockEntity blockEntity;
+    private final PropertyDelegate propertyDelegate;
+
 
     protected SolarGeneratorMK1ScreenHandler(int syncId, PlayerInventory inventory, PacketByteBuf buf) {
         this(syncId, inventory, inventory.player.getWorld().getBlockEntity(buf.readBlockPos()));
@@ -25,6 +26,9 @@ public class SolarGeneratorMK1ScreenHandler extends ScreenHandler {
     public SolarGeneratorMK1ScreenHandler(int syncId, PlayerInventory playerInventory, BlockEntity blockEntity) {
         super(ModScreenHandlers.SOLARGENERATORMK1_SCREEN_HANDLER, syncId);
         this.blockEntity = ((SolarGeneratorMK1_BlockEntity) blockEntity);
+
+        this.propertyDelegate = new ArrayPropertyDelegate(1);
+        this.addProperties(this.propertyDelegate);
 
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
@@ -39,6 +43,11 @@ public class SolarGeneratorMK1ScreenHandler extends ScreenHandler {
     @Override
     public boolean canUse(PlayerEntity player) {
         return true;
+    }
+
+    // Diese Methode gibt den aktuellen Energie-Level zurück
+    public int getEnergy() {
+        return this.propertyDelegate.get(0);
     }
 
     private void addPlayerInventory(PlayerInventory playerInventory) {
