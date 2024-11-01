@@ -18,6 +18,9 @@ repositories {
 	// for more information about repositories.
 	maven { url "https://maven.shedaniel.me" }
 	maven { url "https://maven.teamreborn.energy" }
+
+	maven { url 'https://maven.fabricmc.net/' }
+	mavenCentral()
 }
 
 fabricApi {
