@@ -11,8 +11,8 @@ public class TechRebornClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
 
-        HandledScreens.register(ModScreenHandlers.PULVERIZERMK1_SCREEN_HANDLER, PulverizerMK1Screen::new);
         HandledScreens.register(ModScreenHandlers.SOLARGENERATORMK1_SCREEN_HANDLER, SolarGeneratorMK1Screen::new);
+        HandledScreens.register(ModScreenHandlers.PULVERIZERMK1_SCREEN_HANDLER, PulverizerMK1Screen::new);
 
     }
 }

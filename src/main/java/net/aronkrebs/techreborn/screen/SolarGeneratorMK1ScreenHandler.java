@@ -4,16 +4,14 @@ import net.aronkrebs.techreborn.block.entity.SolarGeneratorMK1_BlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.ArrayPropertyDelegate;
-import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 
+
 public class SolarGeneratorMK1ScreenHandler extends ScreenHandler {
-    public SolarGeneratorMK1_BlockEntity blockEntity;
+    public final SolarGeneratorMK1_BlockEntity blockEntity;
 
     protected SolarGeneratorMK1ScreenHandler(int syncId, PlayerInventory inventory, PacketByteBuf buf) {
         this(syncId, inventory, inventory.player.getWorld().getBlockEntity(buf.readBlockPos()));
