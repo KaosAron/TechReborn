@@ -11,6 +11,7 @@ import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import team.reborn.energy.api.EnergyStorage;
 
 import java.util.List;
 import java.util.Optional;
@@ -63,7 +64,6 @@ public class SolarGeneratorMK1Screen extends HandledScreen<SolarGeneratorMK1Scre
 
         context.drawTexture(TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight);
 
-        energyInfoArea.setEnergyLevel(handler.getEnergy()); // Hier wird die Energie aus dem PropertyDelegate geholt
         energyInfoArea.draw(context, energyStartX, energyStartY); //Energy Storage renderer
     }
 

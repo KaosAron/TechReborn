@@ -6,8 +6,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.screen.ArrayPropertyDelegate;
+import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 
 public class SolarGeneratorMK1ScreenHandler extends ScreenHandler {
@@ -22,7 +25,7 @@ public class SolarGeneratorMK1ScreenHandler extends ScreenHandler {
 
     public SolarGeneratorMK1ScreenHandler(int syncId, PlayerInventory playerInventory, BlockEntity blockEntity) {
         super(ModScreenHandlers.SOLARGENERATORMK1_SCREEN_HANDLER, syncId);
-        this.blockEntity = ((SolarGeneratorMK1_BlockEntity) blockEntity);
+        this.blockEntity = (SolarGeneratorMK1_BlockEntity) blockEntity;
 
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);

@@ -81,11 +81,25 @@ public class SolarGeneratorMK1_BlockEntity extends BlockEntity implements Extend
         return new SolarGeneratorMK1ScreenHandler(syncId, playerInventory, this);
     }
 
+    private void syncEnergyWithClients() {
+        if (!world.isClient()) {
+            PacketByteBuf data = PacketByteBufs.create();
+            data.writeLong(energyStorage.amount);
+            data.writeBlockPos(getPos());
+
+            for (ServerPlayerEntity player : PlayerLookup.tracking((ServerWorld) world, getPos())) {
+                ServerPlayNetworking.send(player, ModMessages.ENERGY_SYNC, data);
+            }
+        }
+    }
+
 
     public void tick(World world, BlockPos pos, BlockState state) {
         if (!world.isClient()) {
             if (world.isDay()) {
                 energyStorage.amount = Math.min(energyStorage.amount + 16, energyStorage.capacity);
+                syncEnergyWithClients();
+
                 markDirty(world, pos, state);  // Sicherstellen, dass der Block als geändert markiert wird
             }
 
@@ -97,7 +111,7 @@ public class SolarGeneratorMK1_BlockEntity extends BlockEntity implements Extend
                     long extractedEnergy = energyStorage.extract(energyToExtract, transaction);
                     if (extractedEnergy > 0) {
                         distributeEnergy(world, pos, extractedEnergy, transaction);  // Übergib die Transaktion
-                        transaction.commit();  // Committe die Transaktion
+                        transaction.commit();  // Commit transaction
                     }
                 }
             }
