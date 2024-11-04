@@ -22,6 +22,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(ModBlocks.LITHIUM_ORE)
 
                 .add(ModBlocks.PULVERIZER_BLOCK)
+                .add(ModBlocks.COAL_GENERATOR_MK1)
                 .add(ModBlocks.SOLAR_GENERATOR_MK1);
 
 
@@ -35,7 +36,8 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
         getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL)
                 .add(ModBlocks.PULVERIZER_BLOCK)
-                .add(ModBlocks.SOLAR_GENERATOR_MK1);
+                .add(ModBlocks.SOLAR_GENERATOR_MK1)
+                .add(ModBlocks.COAL_GENERATOR_MK1);
 
         //getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, new Identifier("fabric", "needs_tool_level_4")))
         //        .add(ModBlocks.)
