@@ -26,8 +26,7 @@ public class PulverizerMK1ScreenHandler extends ScreenHandler {
         this.blockEntity.setEnergyLevel(energy);
     }
 
-    public PulverizerMK1ScreenHandler(int syncId, PlayerInventory playerInventory,
-                                     BlockEntity blockEntity, PropertyDelegate arrayPropertyDelegate) {
+    public PulverizerMK1ScreenHandler(int syncId, PlayerInventory playerInventory, BlockEntity blockEntity, PropertyDelegate arrayPropertyDelegate) {
         super(ModScreenHandlers.PULVERIZERMK1_SCREEN_HANDLER, syncId);
         checkSize(((Inventory) blockEntity), 2);
         this.inventory = ((Inventory) blockEntity);

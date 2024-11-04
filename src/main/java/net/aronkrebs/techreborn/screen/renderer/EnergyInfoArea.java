@@ -1,6 +1,5 @@
 package net.aronkrebs.techreborn.screen.renderer;
 
-import net.aronkrebs.techreborn.TechReborn;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.Rect2i;
 import net.minecraft.text.Text;
@@ -19,20 +18,12 @@ import java.util.List;
 public class EnergyInfoArea extends InfoArea {
     private final EnergyStorage energy;
 
-    private static final Identifier
-            TEXTURE = new Identifier(TechReborn.MOD_ID, "textures/gui/pulverizer_block_gui.png");
+    private Identifier TEXTURE;
 
-    public EnergyInfoArea(int xMin, int yMin)  {
-        this(xMin, yMin, null, 14, 42);
-    }
-
-    public EnergyInfoArea(int xMin, int yMin, EnergyStorage energy)  {
-        this(xMin, yMin, energy, 14, 42);
-    }
-
-    public EnergyInfoArea(int xMin, int yMin, EnergyStorage energy, int width, int height)  {
+    public EnergyInfoArea(int xMin, int yMin, EnergyStorage energy, int width, int height, Identifier TEXTURE)  {
         super(new Rect2i(xMin, yMin, width, height));
         this.energy = energy;
+        this.TEXTURE = TEXTURE;
     }
 
     public List<Text> getTooltips() {
@@ -51,7 +42,6 @@ public class EnergyInfoArea extends InfoArea {
         int yOffset = height - stored;
 
         // Render the texture based on the energy level
-
         context.drawTexture(
                 TEXTURE,
                 area.getX(),
