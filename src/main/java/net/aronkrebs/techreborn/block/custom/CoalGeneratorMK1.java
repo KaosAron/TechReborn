@@ -29,11 +29,6 @@ public class CoalGeneratorMK1 extends BlockWithEntity implements BlockEntityProv
     }
 
     @Override
-    public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return null;
-    }
-
-    @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
     }

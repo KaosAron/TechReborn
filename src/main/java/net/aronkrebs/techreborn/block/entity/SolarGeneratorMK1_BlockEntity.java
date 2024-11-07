@@ -1,12 +1,14 @@
 package net.aronkrebs.techreborn.block.entity;
 
 import net.aronkrebs.techreborn.networking.ModMessages;
+import net.aronkrebs.techreborn.networking.packet.EnergySyncS2CPacket;
 import net.aronkrebs.techreborn.screen.SolarGeneratorMK1ScreenHandler;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -81,7 +83,7 @@ public class SolarGeneratorMK1_BlockEntity extends BlockEntity implements Extend
         return new SolarGeneratorMK1ScreenHandler(syncId, playerInventory, this);
     }
 
-    private void syncEnergyWithClients() {
+    private void syncEnergy() {
         if (!world.isClient()) {
             PacketByteBuf data = PacketByteBufs.create();
             data.writeLong(energyStorage.amount);
@@ -98,7 +100,7 @@ public class SolarGeneratorMK1_BlockEntity extends BlockEntity implements Extend
         if (!world.isClient()) {
             if (world.isDay()) {
                 energyStorage.amount = Math.min(energyStorage.amount + 16, energyStorage.capacity);
-                syncEnergyWithClients();
+                syncEnergy();
 
                 markDirty(world, pos, state);  // Sicherstellen, dass der Block als geändert markiert wird
             }
