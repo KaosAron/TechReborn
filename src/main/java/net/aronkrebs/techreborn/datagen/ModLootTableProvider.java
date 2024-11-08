@@ -25,6 +25,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
     public void generate() {
         addDrop(ModBlocks.PULVERIZER_BLOCK);
         addDrop(ModBlocks.SOLAR_GENERATOR_MK1);
+        addDrop(ModBlocks.COAL_GENERATOR_MK1);
 
         addDrop(ModBlocks.LITHIUM_BLOCK);
 
