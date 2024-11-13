@@ -1,0 +1,11 @@
+{
+  "type": "techreborn:coalgeneratormk1",
+  "ingredients": [
+    {
+      "item": "minecraft:coal"
+    }
+  ],
+  "outputEnergy": {
+    "energy": "16"
+  }
+}

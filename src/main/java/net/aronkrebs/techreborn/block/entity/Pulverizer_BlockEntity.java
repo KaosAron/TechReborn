@@ -60,7 +60,6 @@ public class Pulverizer_BlockEntity extends BlockEntity implements ExtendedScree
     private int progress = 0;
     private int maxProgress = 72;
 
-
     public Pulverizer_BlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.PULVERIZER_BLOCK_ENTITY, pos, state);
         this.propertyDelegate = new PropertyDelegate() {

@@ -15,8 +15,7 @@ import net.minecraft.util.Identifier;
 import java.util.List;
 import java.util.Optional;
 
-
-public class PulverizerMK1Screen extends HandledScreen<PulverizerMK1ScreenHandler> {
+public class CoalGeneratorMK1Screen extends HandledScreen<CoalGeneratorMK1ScreenHandler> {
     private static final Identifier
             TEXTURE = new Identifier(TechReborn.MOD_ID, "textures/gui/pulverizer_block_gui.png");
 
@@ -25,7 +24,7 @@ public class PulverizerMK1Screen extends HandledScreen<PulverizerMK1ScreenHandle
 
     private EnergyInfoArea energyInfoArea;
 
-    public PulverizerMK1Screen(PulverizerMK1ScreenHandler handler, PlayerInventory inventory, Text title) {
+    public CoalGeneratorMK1Screen(CoalGeneratorMK1ScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 

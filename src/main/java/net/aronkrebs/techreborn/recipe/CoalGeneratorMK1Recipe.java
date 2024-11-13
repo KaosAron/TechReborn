@@ -12,18 +12,19 @@ import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import net.minecraft.recipe.Ingredient;
+import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import java.util.List;
 
 public class CoalGeneratorMK1Recipe implements Recipe<SimpleInventory> {
     private final Identifier id;
-    public final ItemStack output;
     private final List<Ingredient> recipeItems;
+    private final Integer energy;
 
-    public CoalGeneratorMK1Recipe(Identifier id, ItemStack itemStack, List<Ingredient> ingredients) {
+    public CoalGeneratorMK1Recipe(Identifier id, List<Ingredient> ingredients, Integer outputEnergy) {
         this.id = id;
-        this.output = itemStack;
         this.recipeItems = ingredients;
+        this.energy = outputEnergy;
     }
 
     @Override
@@ -38,7 +39,7 @@ public class CoalGeneratorMK1Recipe implements Recipe<SimpleInventory> {
 
     @Override
     public ItemStack craft(SimpleInventory inventory, DynamicRegistryManager registryManager) {
-        return output;
+        return null;
     }
 
     @Override
@@ -86,16 +87,16 @@ public class CoalGeneratorMK1Recipe implements Recipe<SimpleInventory> {
 
         @Override
         public CoalGeneratorMK1Recipe read(Identifier id, JsonObject json) {
-            ItemStack output = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "output"));
-
             JsonArray ingredients = JsonHelper.getArray(json, "ingredients");
             DefaultedList<Ingredient> inputs = DefaultedList.ofSize(1, Ingredient.EMPTY);
+
+            Integer outputEnergy = JsonHelper.getInt(json, "outputEnergy");
 
             for (int i = 0; i < inputs.size(); i++) {
                 inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
             }
 
-            return new CoalGeneratorMK1Recipe(id, output, inputs);
+            return new CoalGeneratorMK1Recipe(id, inputs, outputEnergy);
         }
 
         @Override
@@ -106,8 +107,9 @@ public class CoalGeneratorMK1Recipe implements Recipe<SimpleInventory> {
                 inputs.set(i, Ingredient.fromPacket(buf));
             }
 
-            ItemStack output = buf.readItemStack();
-            return new CoalGeneratorMK1Recipe(id, output, inputs);
+            Integer outputEnergy = buf.readInt();
+
+            return new CoalGeneratorMK1Recipe(id, inputs, outputEnergy);
         }
 
         @Override
@@ -116,7 +118,7 @@ public class CoalGeneratorMK1Recipe implements Recipe<SimpleInventory> {
             for (Ingredient ing : recipe.getIngredients()) {
                 ing.write(buf);
             }
-            buf.writeItemStack(recipe.getOutput(null));
+            buf.writeInt(recipe.energy);
         }
     }
 

@@ -1,5 +1,6 @@
 package net.aronkrebs.techreborn;
 
+import net.aronkrebs.techreborn.screen.CoalGeneratorMK1Screen;
 import net.aronkrebs.techreborn.screen.ModScreenHandlers;
 import net.aronkrebs.techreborn.screen.PulverizerMK1Screen;
 import net.aronkrebs.techreborn.screen.SolarGeneratorMK1Screen;
@@ -12,6 +13,7 @@ public class TechRebornClient implements ClientModInitializer {
 
         HandledScreens.register(ModScreenHandlers.SOLARGENERATORMK1_SCREEN_HANDLER, SolarGeneratorMK1Screen::new);
         HandledScreens.register(ModScreenHandlers.PULVERIZERMK1_SCREEN_HANDLER, PulverizerMK1Screen::new);
+        HandledScreens.register(ModScreenHandlers.COALGENERATORMK1_SCREEN_HANDLER, CoalGeneratorMK1Screen::new);
 
     }
 }

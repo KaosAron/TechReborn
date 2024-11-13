@@ -2,8 +2,6 @@ package net.aronkrebs.techreborn.block.custom;
 
 import net.aronkrebs.techreborn.block.entity.CoalGeneratorMK1_BlockEntity;
 import net.aronkrebs.techreborn.block.entity.ModBlockEntities;
-import net.aronkrebs.techreborn.block.entity.Pulverizer_BlockEntity;
-import net.aronkrebs.techreborn.block.entity.SolarGeneratorMK1_BlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -12,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.*;
@@ -23,9 +22,19 @@ import org.jetbrains.annotations.Nullable;
 public class CoalGeneratorMK1 extends BlockWithEntity implements BlockEntityProvider {
 
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
+    public static BooleanProperty WORKING = BooleanProperty.of("working");
 
     public CoalGeneratorMK1(Settings settings) {
         super(settings);
+        this.setDefaultState(this.stateManager.getDefaultState().with(WORKING, false));
+    }
+
+    public static void startWorking(World world, BlockPos pos, BlockState state) {
+            world.setBlockState(pos, state.with(WORKING, true));
+    }
+
+    public static void stopWorking(World world, BlockPos pos, BlockState state) {
+            world.setBlockState(pos, state.with(WORKING, false));
     }
 
     @Override
@@ -71,11 +80,10 @@ public class CoalGeneratorMK1 extends BlockWithEntity implements BlockEntityProv
                 (world1, pos, state1, blockEntity) -> blockEntity.tick(world1, pos, state1));
     }
 
-
     // Override to define the block state with the facing property
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(WORKING, FACING);
     }
 
     // Override to define the block state when placed

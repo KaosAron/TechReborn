@@ -1,7 +1,9 @@
 package net.aronkrebs.techreborn.networking.packet;
 
+import net.aronkrebs.techreborn.block.entity.CoalGeneratorMK1_BlockEntity;
 import net.aronkrebs.techreborn.block.entity.SolarGeneratorMK1_BlockEntity;
 import net.aronkrebs.techreborn.networking.ModMessages;
+import net.aronkrebs.techreborn.screen.CoalGeneratorMK1ScreenHandler;
 import net.aronkrebs.techreborn.screen.SolarGeneratorMK1ScreenHandler;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
@@ -38,6 +40,15 @@ public class EnergySyncS2CPacket {
             blockEntity.setEnergyLevel(energy);
 
             if (client.player.currentScreenHandler instanceof SolarGeneratorMK1ScreenHandler screenHandler &&
+                    screenHandler.blockEntity.getPos().equals(position)) {
+                blockEntity.setEnergyLevel(energy);
+            }
+        }
+
+        if (client.world.getBlockEntity(position) instanceof CoalGeneratorMK1_BlockEntity blockEntity) {
+            blockEntity.setEnergyLevel(energy);
+
+            if (client.player.currentScreenHandler instanceof CoalGeneratorMK1ScreenHandler screenHandler &&
                     screenHandler.blockEntity.getPos().equals(position)) {
                 blockEntity.setEnergyLevel(energy);
             }

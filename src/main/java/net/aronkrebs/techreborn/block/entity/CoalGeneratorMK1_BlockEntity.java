@@ -3,19 +3,17 @@ package net.aronkrebs.techreborn.block.entity;
 import net.aronkrebs.techreborn.block.custom.CoalGeneratorMK1;
 import net.aronkrebs.techreborn.networking.ModMessages;
 import net.aronkrebs.techreborn.recipe.CoalGeneratorMK1Recipe;
-import net.aronkrebs.techreborn.recipe.PulverizerMK1Recipe;
+import net.aronkrebs.techreborn.screen.CoalGeneratorMK1ScreenHandler;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -31,6 +29,8 @@ import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import java.util.Optional;
+
+import static net.aronkrebs.techreborn.block.custom.CoalGeneratorMK1.WORKING;
 
 public class CoalGeneratorMK1_BlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory{
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
@@ -122,33 +122,44 @@ public class CoalGeneratorMK1_BlockEntity extends BlockEntity implements Extende
         energyStorage.amount = nbt.getLong("coal_generator_mk1.energy");
     }
 
+    @Nullable
     @Override
-    public @Nullable ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return null;
+    public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
+        return new CoalGeneratorMK1ScreenHandler(syncId, playerInventory, this, this.propertyDelegate);
     }
 
     public void tick(World world, BlockPos pos, BlockState state) {
         if (!world.isClient() && !isInputSlotEmpty()) {
-            if (this.hasRecipe()) {
+            if (this.hasRecipe() || 1 == 1) {
+                CoalGeneratorMK1.startWorking(world, pos, state);
+
+                energyStorage.amount = Math.min(energyStorage.amount + 16, energyStorage.capacity);
+                syncEnergy();
+
                 this.increaseBurnProgress();
                 markDirty(world, pos, state);
-
                 if (hasBurningFinished()) {
-                    energyStorage.amount = Math.min(energyStorage.amount + 16, energyStorage.capacity);
-                    syncEnergy();
+                    deleteItem();
+
                     this.resetProgress();
                 }
             } else {
                 this.resetProgress();
+                CoalGeneratorMK1.stopWorking(world, pos, state);
             }
         } else {
             this.resetProgress();
+            CoalGeneratorMK1.stopWorking(world, pos, state);
             markDirty(world, pos, state);
         }
     }
 
     private boolean hasBurningFinished() {
         return progress >= maxProgress;
+    }
+
+    private void deleteItem() {
+        this.removeStack(INPUT_SLOT, 1);
     }
 
     private void increaseBurnProgress() {
@@ -164,6 +175,7 @@ public class CoalGeneratorMK1_BlockEntity extends BlockEntity implements Extende
 
     private Optional<CoalGeneratorMK1Recipe> getCurrentRecipe() {
         SimpleInventory inv = new SimpleInventory(this.size());
+
         for(int i = 0; i < this.size(); i++) {
             inv.setStack(i, this.getStack(i));
         }

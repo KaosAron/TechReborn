@@ -94,5 +94,4 @@ public class PulverizerMK1 extends BlockWithEntity implements BlockEntityProvide
     public BlockState mirror(BlockState state, BlockMirror mirror) {
         return state.rotate(mirror.getRotation(state.get(FACING)));
     }
-
 }
