@@ -30,7 +30,6 @@ import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import java.util.Optional;
 
-import static net.aronkrebs.techreborn.block.custom.CoalGeneratorMK1.WORKING;
 
 public class CoalGeneratorMK1_BlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory{
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
@@ -129,8 +128,8 @@ public class CoalGeneratorMK1_BlockEntity extends BlockEntity implements Extende
     }
 
     public void tick(World world, BlockPos pos, BlockState state) {
-        if (!world.isClient() && !isInputSlotEmpty()) {
-            if (this.hasRecipe()) {
+        if (!world.isClient()) {
+            if (this.hasRecipe() && !isInputSlotEmpty()) {
                 CoalGeneratorMK1.startWorking(world, pos, state);
 
                 energyStorage.amount = Math.min(energyStorage.amount + 16, energyStorage.capacity);
@@ -144,12 +143,11 @@ public class CoalGeneratorMK1_BlockEntity extends BlockEntity implements Extende
                     this.resetProgress();
                 }
             } else {
-                this.resetProgress();
                 CoalGeneratorMK1.stopWorking(world, pos, state);
+                this.resetProgress();
             }
         } else {
             this.resetProgress();
-            CoalGeneratorMK1.stopWorking(world, pos, state);
             markDirty(world, pos, state);
         }
     }

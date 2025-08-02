@@ -16,6 +16,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,15 +27,23 @@ public class CoalGeneratorMK1 extends BlockWithEntity implements BlockEntityProv
 
     public CoalGeneratorMK1(Settings settings) {
         super(settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(WORKING, false));
+        this.setDefaultState(this.stateManager.getDefaultState()
+                .with(WORKING, false)
+                .with(FACING, Direction.NORTH));
     }
 
     public static void startWorking(World world, BlockPos pos, BlockState state) {
-            world.setBlockState(pos, state.with(WORKING, true));
+        if (!state.get(WORKING)) {
+            world.setBlockState(pos, state.with(WORKING, true), 3);
+            System.out.println("Working ON!");
+        }
     }
 
     public static void stopWorking(World world, BlockPos pos, BlockState state) {
-            world.setBlockState(pos, state.with(WORKING, false));
+        if (state.get(WORKING)) {
+            world.setBlockState(pos, state.with(WORKING, false), 3);
+            System.out.println("Working OFF!");
+        }
     }
 
     @Override
