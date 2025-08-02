@@ -1,6 +1,6 @@
 package net.aronkrebs.techreborn.block.custom;
 
-import net.aronkrebs.techreborn.block.entity.Pulverizer_BlockEntity;
+import net.aronkrebs.techreborn.block.entity.CoalGeneratorMK1_BlockEntity;
 import net.aronkrebs.techreborn.block.entity.ModBlockEntities;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.*;
@@ -19,14 +20,30 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class PulverizerMK1 extends BlockWithEntity implements BlockEntityProvider {
+public class CoalGeneratorMK1 extends BlockWithEntity implements BlockEntityProvider {
 
-    // Direction property to store the block's facing direction
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
+    public static BooleanProperty WORKING = BooleanProperty.of("working");
 
-    public PulverizerMK1(Settings settings) {
+    public CoalGeneratorMK1(Settings settings) {
         super(settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
+        this.setDefaultState(this.stateManager.getDefaultState()
+                .with(WORKING, false)
+                .with(FACING, Direction.NORTH));
+    }
+
+    public static void startWorking(World world, BlockPos pos, BlockState state) {
+        if (!state.get(WORKING)) {
+            world.setBlockState(pos, state.with(WORKING, true), 3);
+            System.out.println("Working ON!");
+        }
+    }
+
+    public static void stopWorking(World world, BlockPos pos, BlockState state) {
+        if (state.get(WORKING)) {
+            world.setBlockState(pos, state.with(WORKING, false), 3);
+            System.out.println("Working OFF!");
+        }
     }
 
     @Override
@@ -37,15 +54,15 @@ public class PulverizerMK1 extends BlockWithEntity implements BlockEntityProvide
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new Pulverizer_BlockEntity(pos, state);
+        return new CoalGeneratorMK1_BlockEntity(pos, state);
     }
 
     @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof Pulverizer_BlockEntity) {
-                ItemScatterer.spawn(world, pos, (Pulverizer_BlockEntity)blockEntity);
+            if (blockEntity instanceof CoalGeneratorMK1_BlockEntity) {
+                ItemScatterer.spawn(world, pos, (CoalGeneratorMK1_BlockEntity)blockEntity);
                 world.updateComparators(pos,this);
             }
             super.onStateReplaced(state, world, pos, newState, moved);
@@ -55,7 +72,7 @@ public class PulverizerMK1 extends BlockWithEntity implements BlockEntityProvide
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
-            NamedScreenHandlerFactory screenHandlerFactory = ((Pulverizer_BlockEntity) world.getBlockEntity(pos));
+            NamedScreenHandlerFactory screenHandlerFactory = ((CoalGeneratorMK1_BlockEntity) world.getBlockEntity(pos));
 
             if (screenHandlerFactory != null) {
                 player.openHandledScreen(screenHandlerFactory);
@@ -68,14 +85,14 @@ public class PulverizerMK1 extends BlockWithEntity implements BlockEntityProvide
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModBlockEntities.PULVERIZER_BLOCK_ENTITY,
+        return checkType(type, ModBlockEntities.COAL_GENERATOR_MK1_BLOCK_ENTITY,
                 (world1, pos, state1, blockEntity) -> blockEntity.tick(world1, pos, state1));
     }
 
     // Override to define the block state with the facing property
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(WORKING, FACING);
     }
 
     // Override to define the block state when placed

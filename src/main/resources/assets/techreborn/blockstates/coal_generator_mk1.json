@@ -1,0 +1,13 @@
+{
+  "variants": {
+      "working=false,facing=north": { "model": "techreborn:block/coal_generator_mk1" },
+      "working=false,facing=south": { "model": "techreborn:block/coal_generator_mk1", "y": 180 },
+      "working=false,facing=west":  { "model": "techreborn:block/coal_generator_mk1", "y": 270 },
+      "working=false,facing=east":  { "model": "techreborn:block/coal_generator_mk1", "y": 90 },
+
+      "working=true,facing=north": { "model": "techreborn:block/coal_generator_mk1_on" },
+      "working=true,facing=south": { "model": "techreborn:block/coal_generator_mk1_on", "y": 180 },
+      "working=true,facing=west":  { "model": "techreborn:block/coal_generator_mk1_on", "y": 270 },
+      "working=true,facing=east":  { "model": "techreborn:block/coal_generator_mk1_on", "y": 90 }
+  }
+}

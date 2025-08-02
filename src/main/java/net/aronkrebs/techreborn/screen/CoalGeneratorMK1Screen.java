@@ -15,16 +15,16 @@ import net.minecraft.util.Identifier;
 import java.util.List;
 import java.util.Optional;
 
-public class SolarGeneratorMK1Screen extends HandledScreen<SolarGeneratorMK1ScreenHandler> {
+public class CoalGeneratorMK1Screen extends HandledScreen<CoalGeneratorMK1ScreenHandler> {
     private static final Identifier
-            TEXTURE = new Identifier(TechReborn.MOD_ID, "textures/gui/solar_generator_mk1_gui.png");
+            TEXTURE = new Identifier(TechReborn.MOD_ID, "textures/gui/pulverizer_block_gui.png");
 
     int energyStartX = 176;
     int energyStartY = 29;
 
     private EnergyInfoArea energyInfoArea;
 
-    public SolarGeneratorMK1Screen(SolarGeneratorMK1ScreenHandler handler, PlayerInventory inventory, Text title) {
+    public CoalGeneratorMK1Screen(CoalGeneratorMK1ScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
@@ -63,6 +63,8 @@ public class SolarGeneratorMK1Screen extends HandledScreen<SolarGeneratorMK1Scre
 
         context.drawTexture(TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight);
 
+        renderProgressArrow(context, x, y); //The Progress "Blitz" Symbol will be rendered here
+
         energyInfoArea.draw(context, energyStartX, energyStartY); //Energy Storage renderer
     }
 
@@ -74,6 +76,19 @@ public class SolarGeneratorMK1Screen extends HandledScreen<SolarGeneratorMK1Scre
             pMouseY -= y;
 
             context.drawTooltip(MinecraftClient.getInstance().textRenderer, tooltips, Optional.empty(), pMouseX, pMouseY);
+        }
+    }
+
+    private void renderProgressArrow(DrawContext context, int x, int y) {
+        if(handler.isCrafting()) {
+            context.drawTexture(
+                    TEXTURE,                //Was soll gedrawed werden
+                    x + 79,                 //Wohin x
+                    y + 29,                 //Wohin y
+                    176,                    //Wo beginnt x
+                    0,                      //Wo beginnt y
+                    20,                     //Wie breit x obv
+                    handler.getScaledProgress());
         }
     }
 

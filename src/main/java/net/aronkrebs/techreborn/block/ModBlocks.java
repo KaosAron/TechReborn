@@ -1,6 +1,7 @@
 package net.aronkrebs.techreborn.block;
 
 import net.aronkrebs.techreborn.TechReborn;
+import net.aronkrebs.techreborn.block.custom.CoalGeneratorMK1;
 import net.aronkrebs.techreborn.block.custom.PulverizerMK1;
 import net.aronkrebs.techreborn.block.custom.SolarGeneratorMK1;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -17,6 +18,7 @@ import net.minecraft.util.Identifier;
 public class ModBlocks {
 
     public static final Block SOLAR_GENERATOR_MK1 = registerBlock("solar_generator_mk1", new SolarGeneratorMK1(FabricBlockSettings.copyOf(Blocks.DISPENSER)));
+    public static final Block COAL_GENERATOR_MK1 = registerBlock("coal_generator_mk1", new CoalGeneratorMK1(FabricBlockSettings.copyOf(Blocks.DISPENSER)));
     public static final Block PULVERIZER_BLOCK = registerBlock("pulverizer_block", new PulverizerMK1(FabricBlockSettings.copyOf(Blocks.DISPENSER)));
 
     public static final Block LITHIUM_ORE = registerBlock("lithium_ore", new ExperienceDroppingBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)));

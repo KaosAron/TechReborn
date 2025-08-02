@@ -11,5 +11,9 @@ public class ModRecipes {
                 PulverizerMK1Recipe.Serializer.INSTANCE);
         Registry.register(Registries.RECIPE_TYPE, new Identifier(TechReborn.MOD_ID, PulverizerMK1Recipe.Type.ID),
                 PulverizerMK1Recipe.Type.INSTANCE);
+        Registry.register(Registries.RECIPE_SERIALIZER, new Identifier(TechReborn.MOD_ID, CoalGeneratorMK1Recipe.Serializer.ID),
+                CoalGeneratorMK1Recipe.Serializer.INSTANCE);
+        Registry.register(Registries.RECIPE_TYPE, new Identifier(TechReborn.MOD_ID, CoalGeneratorMK1Recipe.Type.ID),
+                CoalGeneratorMK1Recipe.Type.INSTANCE);
     }
 }

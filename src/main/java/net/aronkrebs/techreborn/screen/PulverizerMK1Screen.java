@@ -80,7 +80,6 @@ public class PulverizerMK1Screen extends HandledScreen<PulverizerMK1ScreenHandle
         }
     }
 
-
     private void renderProgressArrow(DrawContext context, int x, int y) {
         if(handler.isCrafting()) {
             context.drawTexture(
