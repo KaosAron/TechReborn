@@ -135,6 +135,7 @@ public class CoalGeneratorMK1_BlockEntity extends BlockEntity implements Extende
                 energyStorage.amount = Math.min(energyStorage.amount + 16, energyStorage.capacity);
                 syncEnergy();
 
+
                 this.increaseBurnProgress();
                 markDirty(world, pos, state);
                 if (hasBurningFinished()) {
