@@ -130,7 +130,7 @@ public class CoalGeneratorMK1_BlockEntity extends BlockEntity implements Extende
 
     public void tick(World world, BlockPos pos, BlockState state) {
         if (!world.isClient() && !isInputSlotEmpty()) {
-            if (this.hasRecipe() || 1 == 1) {
+            if (this.hasRecipe()) {
                 CoalGeneratorMK1.startWorking(world, pos, state);
 
                 energyStorage.amount = Math.min(energyStorage.amount + 16, energyStorage.capacity);

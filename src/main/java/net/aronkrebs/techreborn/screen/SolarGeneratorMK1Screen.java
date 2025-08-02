@@ -11,7 +11,6 @@ import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import team.reborn.energy.api.EnergyStorage;
 
 import java.util.List;
 import java.util.Optional;

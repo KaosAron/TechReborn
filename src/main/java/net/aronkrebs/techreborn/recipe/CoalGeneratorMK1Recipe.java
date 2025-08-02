@@ -12,7 +12,6 @@ import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import net.minecraft.recipe.Ingredient;
-import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import java.util.List;
 
